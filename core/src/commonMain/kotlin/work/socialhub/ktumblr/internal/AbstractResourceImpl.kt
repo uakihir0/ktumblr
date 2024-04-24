@@ -99,7 +99,7 @@ open class AbstractResourceImpl(
         }
     }
 
-    inline fun proceedUnit(
+    private inline fun proceedUnit(
         body: () -> HttpResponse
     ): ResponseUnit {
         try {
@@ -125,7 +125,7 @@ open class AbstractResourceImpl(
         return "/blog/" + blogUrl(blogName) + extPath
     }
 
-    protected fun blogUrl(
+    private fun blogUrl(
         blogName: String,
     ): String {
         return if (blogName.contains(".")) blogName

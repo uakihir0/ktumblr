@@ -1,6 +1,6 @@
 package work.socialhub.ktumblr.internal
 
-import work.socialhub.ktumblr.entity.User
+import work.socialhub.ktumblr.TumblrAuth
 import work.socialhub.ktumblr.api.UserResource
 import work.socialhub.ktumblr.api.request.user.UserDashboardRequest
 import work.socialhub.ktumblr.api.request.user.UserFollowRequest
@@ -11,12 +11,14 @@ import work.socialhub.ktumblr.api.request.user.UserUnfollowRequest
 import work.socialhub.ktumblr.api.request.user.UserUnlikeRequest
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
+import work.socialhub.ktumblr.entity.User
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
 
-class UserResourceImpl :
-    UserResource,
-    AbstractResourceImpl() {
+class UserResourceImpl(
+    auth: TumblrAuth
+) : UserResource,
+    AbstractResourceImpl(auth) {
 
     override fun user(): Response<User> {
         return oauthGet("/user/info")

@@ -1,5 +1,6 @@
 package work.socialhub.ktumblr.internal
 
+import work.socialhub.ktumblr.TumblrAuth
 import work.socialhub.ktumblr.api.BlogResource
 import work.socialhub.ktumblr.api.request.blog.BlogAvatarRequest
 import work.socialhub.ktumblr.api.request.blog.BlogDraftsRequest
@@ -25,9 +26,10 @@ import work.socialhub.ktumblr.api.response.ResponseUnit
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
 
-class BlogResourceImpl :
-    BlogResource,
-    AbstractResourceImpl() {
+class BlogResourceImpl(
+    auth: TumblrAuth
+) : BlogResource,
+    AbstractResourceImpl(auth) {
 
     override fun blogInfo(
         request: BlogInfoRequest
