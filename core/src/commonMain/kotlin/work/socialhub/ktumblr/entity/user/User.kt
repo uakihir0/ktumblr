@@ -1,4 +1,4 @@
-package work.socialhub.ktumblr.entity
+package work.socialhub.ktumblr.entity.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

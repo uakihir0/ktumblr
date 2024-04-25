@@ -1,6 +1,9 @@
 package work.socialhub.ktumblr.internal
 
+import work.socialhub.khttpclient.HttpRequest
+import work.socialhub.kmpcommon.runBlocking
 import work.socialhub.ktumblr.TumblrAuth
+import work.socialhub.ktumblr.TumblrEndpoint.API_URL
 import work.socialhub.ktumblr.api.BlogResource
 import work.socialhub.ktumblr.api.request.blog.BlogAvatarRequest
 import work.socialhub.ktumblr.api.request.blog.BlogDraftsRequest
@@ -21,8 +24,14 @@ import work.socialhub.ktumblr.api.request.blog.post.BlogQuotePostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogReblogRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogTextPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogVideoPostRequest
+import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
+import work.socialhub.ktumblr.api.response.blog.BlogFollowersResponse
+import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
+import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
+import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
+import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
 
@@ -33,7 +42,7 @@ class BlogResourceImpl(
 
     override fun blogInfo(
         request: BlogInfoRequest
-    ): Response<Blog> {
+    ): Response<Body<BlogInfoResponse>> {
         return apiKeyGet(
             blogPath(request.blogName!!, "/info"),
         )
@@ -43,12 +52,22 @@ class BlogResourceImpl(
         request: BlogAvatarRequest
     ): Response<String> {
         val ext = if (request.size == null) "" else "/${request.size!!}"
-        return get(blogPath(request.blogName!!, "/avatar$ext"))
+        val path = blogPath(request.blogName!!, "/avatar$ext")
+
+        return runBlocking {
+            val r = HttpRequest()
+                .url("$API_URL$path")
+                .get()
+
+            val url = checkNotNull(r.headers["Location"])
+            { "Location header is not found." }
+            Response(url[0], url[0])
+        }
     }
 
     override fun blogLikes(
         request: BlogLikesRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<BlogLikesResponse>> {
         return apiKeyGet(
             blogPath(request.blogName!!, "/likes"),
             request.toMap()
@@ -57,7 +76,7 @@ class BlogResourceImpl(
 
     override fun blogFollowing(
         request: BlogFollowingRequest
-    ): Response<Array<Blog>> {
+    ): Response<Body<BlogFollowingResponse>> {
         return oauthGet(
             blogPath(request.blogName!!, "/following"),
             request.toMap()
@@ -66,7 +85,7 @@ class BlogResourceImpl(
 
     override fun blogFollowers(
         request: BlogFollowersRequest
-    ): Response<Array<Blog>> {
+    ): Response<Body<BlogFollowersResponse>> {
         return oauthGet(
             blogPath(request.blogName!!, "/followers"),
             request.toMap()
@@ -75,7 +94,7 @@ class BlogResourceImpl(
 
     override fun blogPosts(
         request: BlogPostsRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<BlogPostsResponse>> {
         val ext = if (request.type == null) "" else "/${request.type!!}"
         return oauthGet(
             blogPath(request.blogName!!, "/posts$ext"),
@@ -85,7 +104,7 @@ class BlogResourceImpl(
 
     override fun blogQueuedPosts(
         request: BlogQueueRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<BlogPostsResponse>>{
         return oauthGet(
             blogPath(request.blogName!!, "/posts/queue"),
             request.toMap()
@@ -94,7 +113,7 @@ class BlogResourceImpl(
 
     override fun blogDraftPosts(
         request: BlogDraftsRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
             blogPath(request.blogName!!, "/posts/draft"),
             request.toMap()
@@ -103,7 +122,7 @@ class BlogResourceImpl(
 
     override fun blogSubmissions(
         request: BlogSubmissionsRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
             blogPath(request.blogName!!, "/posts/submission"),
             request.toMap()

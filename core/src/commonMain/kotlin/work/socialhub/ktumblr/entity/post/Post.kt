@@ -29,10 +29,10 @@ open class Post : Resource() {
     var parentPostUrl: String? = null
 
     @SerialName("type")
-    open var type: String? = null
+    var type: String? = null
 
     @SerialName("timestamp")
-    val timestamp: Int? = null
+    var timestamp: Int? = null
 
     @SerialName("date")
     var date: String? = null
@@ -47,19 +47,19 @@ open class Post : Resource() {
     var tags: Array<String>? = null
 
     @SerialName("bookmarklet")
-    val isBookmarklet: Boolean? = null
+    var isBookmarklet: Boolean? = null
 
     @SerialName("mobile")
-    val isMobile: Boolean? = null
+    var isMobile: Boolean? = null
 
     @SerialName("source_url")
-    val sourceUrl: String? = null
+    var sourceUrl: String? = null
 
     @SerialName("source_title")
-    val sourceTitle: String? = null
+    var sourceTitle: String? = null
 
     @SerialName("liked")
-    val isLiked: Boolean? = null
+    var isLiked: Boolean? = null
 
     @SerialName("state")
     var state: String? = null
@@ -78,13 +78,4 @@ open class Post : Resource() {
 
     @SerialName("body")
     var body: String? = null
-
-    fun detail(): MutableMap<String, Any> {
-        val map = mutableMapOf<String, Any>()
-        map["state"] = state!!
-        map["tags"] = tags!!.joinToString(",")
-        map["format"] = format!!
-        map["type"] = type!!
-        return map
-    }
 }

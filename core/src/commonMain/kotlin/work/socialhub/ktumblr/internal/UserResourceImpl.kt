@@ -9,24 +9,27 @@ import work.socialhub.ktumblr.api.request.user.UserLikeRequest
 import work.socialhub.ktumblr.api.request.user.UserLikesRequest
 import work.socialhub.ktumblr.api.request.user.UserUnfollowRequest
 import work.socialhub.ktumblr.api.request.user.UserUnlikeRequest
+import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
-import work.socialhub.ktumblr.entity.User
-import work.socialhub.ktumblr.entity.blog.Blog
-import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.api.response.user.UserDashboardResponse
+import work.socialhub.ktumblr.api.response.user.UserFollowingResponse
+import work.socialhub.ktumblr.api.response.user.UserLikesResponse
+import work.socialhub.ktumblr.api.response.user.UserResponse
 
 class UserResourceImpl(
     auth: TumblrAuth
 ) : UserResource,
     AbstractResourceImpl(auth) {
 
-    override fun user(): Response<User> {
+    override fun user(
+    ): Response<Body<UserResponse>> {
         return oauthGet("/user/info")
     }
 
     override fun userDashboard(
         request: UserDashboardRequest
-    ): Response<Array<Post>> {
+    ): Response<Body<UserDashboardResponse>> {
         return oauthGet(
             "/user/dashboard",
             request.toMap()
@@ -35,7 +38,7 @@ class UserResourceImpl(
 
     override fun userFollowing(
         request: UserFollowingRequest
-    ): Response<Array<Blog>> {
+    ): Response<Body<UserFollowingResponse>> {
         return oauthGet(
             "/user/following",
             request.toMap()
@@ -44,7 +47,7 @@ class UserResourceImpl(
 
     override fun userLikes(
         request: UserLikesRequest
-    ): Response<List<Post>> {
+    ): Response<Body<UserLikesResponse>> {
         return oauthGet(
             "/user/likes",
             request.toMap()

@@ -1,6 +1,5 @@
 package work.socialhub.ktumblr.api
 
-import work.socialhub.ktumblr.entity.User
 import work.socialhub.ktumblr.api.request.user.UserDashboardRequest
 import work.socialhub.ktumblr.api.request.user.UserFollowRequest
 import work.socialhub.ktumblr.api.request.user.UserFollowingRequest
@@ -8,38 +7,42 @@ import work.socialhub.ktumblr.api.request.user.UserLikeRequest
 import work.socialhub.ktumblr.api.request.user.UserLikesRequest
 import work.socialhub.ktumblr.api.request.user.UserUnfollowRequest
 import work.socialhub.ktumblr.api.request.user.UserUnlikeRequest
+import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
-import work.socialhub.ktumblr.entity.blog.Blog
-import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.api.response.user.UserDashboardResponse
+import work.socialhub.ktumblr.api.response.user.UserFollowingResponse
+import work.socialhub.ktumblr.api.response.user.UserLikesResponse
+import work.socialhub.ktumblr.api.response.user.UserResponse
 
 interface UserResource {
 
     /**
      * Get the user info for the authenticated User
      */
-    fun user(): Response<User>
+    fun user(
+    ): Response<Body<UserResponse>>
 
     /**
      * Get the user dashboard for the authenticated User
      */
     fun userDashboard(
         request: UserDashboardRequest
-    ): Response<Array<Post>>
+    ): Response<Body<UserDashboardResponse>>
 
     /**
      * Get the blogs the given user is following
      */
     fun userFollowing(
         request: UserFollowingRequest
-    ): Response<Array<Blog>>
+    ): Response<Body<UserFollowingResponse>>
 
     /**
      * Get the likes for the authenticated user
      */
     fun userLikes(
         request: UserLikesRequest
-    ): Response<List<Post>>
+    ): Response<Body<UserLikesResponse>>
 
     /**
      * Like a given post

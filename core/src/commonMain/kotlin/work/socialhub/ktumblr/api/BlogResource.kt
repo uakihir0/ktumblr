@@ -12,8 +12,14 @@ import work.socialhub.ktumblr.api.request.blog.BlogSubmissionsRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogDeleteRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogReblogRequest
+import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
+import work.socialhub.ktumblr.api.response.blog.BlogFollowersResponse
+import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
+import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
+import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
+import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
 
@@ -24,7 +30,7 @@ interface BlogResource {
      */
     fun blogInfo(
         request: BlogInfoRequest
-    ): Response<Blog>
+    ): Response<Body<BlogInfoResponse>>
 
     /**
      * Get a specific size avatar for a given blog
@@ -38,49 +44,49 @@ interface BlogResource {
      */
     fun blogLikes(
         request: BlogLikesRequest
-    ): Response<Array<Post>>
+    ): Response<Body<BlogLikesResponse>>
 
     /**
      * Get the following for a given blog
      */
     fun blogFollowing(
         request: BlogFollowingRequest
-    ): Response<Array<Blog>>
+    ): Response<Body<BlogFollowingResponse>>
 
     /**
      * Get the followers for a given blog
      */
     fun blogFollowers(
         request: BlogFollowersRequest
-    ): Response<Array<Blog>>
+    ): Response<Body<BlogFollowersResponse>>
 
     /**
      * Get the posts for a given blog
      */
     fun blogPosts(
         request: BlogPostsRequest
-    ): Response<Array<Post>>
+    ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the queued posts for a given blog
      */
     fun blogQueuedPosts(
         request: BlogQueueRequest
-    ): Response<Array<Post>>
+    ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the draft posts for a given blog
      */
     fun blogDraftPosts(
         request: BlogDraftsRequest
-    ): Response<Array<Post>>
+    ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the submissions for a given blog
      */
     fun blogSubmissions(
         request: BlogSubmissionsRequest
-    ): Response<Array<Post>>
+    ): Response<Body<BlogPostsResponse>>
 
     /**
      * Create a post
