@@ -2,7 +2,7 @@ package work.socialhub.ktumblr
 
 class TumblrAuth(
     var clientId: String,
-    var clientSecret: String,
+    var clientSecret: String? = null,
     var accessToken: String? = null,
     var refreshToken: String? = null,
 ) {

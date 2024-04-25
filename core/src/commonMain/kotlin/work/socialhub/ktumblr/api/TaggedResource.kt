@@ -4,7 +4,9 @@ import work.socialhub.ktumblr.api.request.tagged.TaggedRequest
 import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.entity.post.Post
+import kotlin.js.JsExport
 
+@JsExport
 interface TaggedResource {
 
     /**

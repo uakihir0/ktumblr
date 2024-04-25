@@ -1,9 +1,13 @@
 package work.socialhub.ktumblr
 
-import kotlinx.serialization.SerialName
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import work.socialhub.ktumblr.util.Json.fromJson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.modules.SerializersModule
+import work.socialhub.kmpcommon.AnySerializer
 import java.io.FileReader
+import java.io.FileWriter
 import kotlin.test.BeforeTest
 
 
@@ -14,7 +18,7 @@ open class AbstractTest {
 
         var CLIENT_ID: String? = null
         var CLIENT_SECRET: String? = null
-        var USER_TOKEN: String? = null
+        var ACCESS_TOKEN: String? = null
         var REFRESH_TOKEN: String? = null
     }
 
@@ -22,16 +26,19 @@ open class AbstractTest {
         return TumblrFactory.instance(
             CLIENT_ID!!,
             CLIENT_SECRET!!,
-            USER_TOKEN,
+            ACCESS_TOKEN,
             REFRESH_TOKEN,
         )
     }
 
-    /**
-     * Read File
-     */
     private fun readFile(file: String): String {
         return FileReader(file).readText()
+    }
+
+    private fun writeFile(file: String, text: String) {
+        val writer = FileWriter(file)
+        writer.write(text)
+        writer.close()
     }
 
     @BeforeTest
@@ -44,7 +51,7 @@ open class AbstractTest {
 
             CLIENT_ID = param.clientId
             CLIENT_SECRET = param.clientSecret
-            USER_TOKEN = param.userToken
+            ACCESS_TOKEN = param.accessToken
             REFRESH_TOKEN = param.refreshToken
 
         } catch (e: Exception) {
@@ -52,6 +59,25 @@ open class AbstractTest {
         }
     }
 
+    fun saveTokens(
+        accessToken: String,
+        refreshToken: String,
+    ) {
+        ACCESS_TOKEN = accessToken
+        REFRESH_TOKEN = refreshToken
+
+        val param = Secrets().also { s ->
+            s.params = listOf(
+                SecretParams().also {
+                    it.clientId = CLIENT_ID
+                    it.clientSecret = CLIENT_SECRET
+                    it.accessToken = accessToken
+                    it.refreshToken = refreshToken
+                }
+            )
+        }
+        writeFile("../secrets.json", toJson(param))
+    }
 
     @Serializable
     class Secrets {
@@ -60,18 +86,28 @@ open class AbstractTest {
 
     @Serializable
     class SecretParams {
-        var host: String? = null
-
-        @SerialName("client_id")
         var clientId: String? = null
-
-        @SerialName("client_secret")
         var clientSecret: String? = null
-
-        @SerialName("user_token")
-        var userToken: String? = null
-
-        @SerialName("refresh_token")
+        var accessToken: String? = null
         var refreshToken: String? = null
+    }
+
+    @OptIn(ExperimentalSerializationApi::class)
+    val json = Json {
+        prettyPrint = true
+        explicitNulls = false
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+        serializersModule = SerializersModule {
+            contextual(Any::class, AnySerializer)
+        }
+    }
+
+    private inline fun <reified T> toJson(obj: T): String {
+        return json.encodeToString(obj)
+    }
+
+    private inline fun <reified T> fromJson(obj: String): T {
+        return json.decodeFromString(obj)
     }
 }

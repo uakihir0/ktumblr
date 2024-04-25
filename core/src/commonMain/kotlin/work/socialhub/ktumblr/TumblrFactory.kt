@@ -1,5 +1,8 @@
 package work.socialhub.ktumblr
 
+import kotlin.js.JsExport
+
+@JsExport
 object TumblrFactory {
 
     /**
@@ -7,7 +10,7 @@ object TumblrFactory {
      */
     fun instance(
         clientId: String = "",
-        clientSecret: String = "",
+        clientSecret: String? = null,
         accessToken: String? = null,
         refreshToken: String? = null,
     ): Tumblr {

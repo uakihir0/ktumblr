@@ -22,7 +22,9 @@ import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
+import kotlin.js.JsExport
 
+@JsExport
 interface BlogResource {
 
     /**

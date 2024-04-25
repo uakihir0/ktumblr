@@ -14,7 +14,9 @@ import work.socialhub.ktumblr.api.response.user.UserDashboardResponse
 import work.socialhub.ktumblr.api.response.user.UserFollowingResponse
 import work.socialhub.ktumblr.api.response.user.UserLikesResponse
 import work.socialhub.ktumblr.api.response.user.UserResponse
+import kotlin.js.JsExport
 
+@JsExport
 interface UserResource {
 
     /**
