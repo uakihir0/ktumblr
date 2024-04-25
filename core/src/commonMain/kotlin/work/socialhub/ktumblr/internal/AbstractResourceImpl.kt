@@ -38,10 +38,9 @@ open class AbstractResourceImpl(
             proceed<T> {
                 HttpRequest()
                     .url("$API_URL$path")
-                    .header("Authorization", auth.oAuthBearerToken())
                     .accept(MediaType.JSON)
                     .queries(params)
-                    .param("api_key", auth.clientId)
+                    .query("api_key", auth.clientId)
                     .get()
             }
         }

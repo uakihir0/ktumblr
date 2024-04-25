@@ -15,7 +15,7 @@ class TaggedResourceImpl(
     override fun tagged(
         request: TaggedRequest
     ): Response<Body<Array<Post>>> {
-        return oauthGet(
+        return apiKeyGet(
             "/tagged",
             request.toMap()
         )

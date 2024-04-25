@@ -1,6 +1,6 @@
 package work.socialhub.ktumblr
 
-class TumblrFactory {
+object TumblrFactory {
 
     /**
      * get request instance
