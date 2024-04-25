@@ -10,7 +10,9 @@ class UserTest : AbstractTest() {
 
     @Test
     fun testUserMe() {
-        val user = tumblr().user().user()
+        val user = checkToken {
+            tumblr().user().user()
+        }
         dump(user.data.response?.user!!)
     }
 
@@ -23,7 +25,6 @@ class UserTest : AbstractTest() {
                 }
             )
         }
-        println(user.json)
         dumpPosts(user.data.response?.posts!!)
     }
 }

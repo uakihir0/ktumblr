@@ -36,21 +36,29 @@ open class AbstractTest {
     inline fun <T> checkToken(
         func: () -> Response<T>
     ): Response<T> {
-        val response = func()
-        return if (response.status == 401) {
-            val refresh = tumblr().auth().oAuth2TokenRefresh(
-                AuthOAuth2TokenRefreshRequest().also {
-                    it.clientId = CLIENT_ID
-                    it.clientSecret = CLIENT_SECRET
-                    it.refreshToken = REFRESH_TOKEN
-                }
-            )
-            saveTokens(
-                refresh.data.accessToken!!,
-                refresh.data.refreshToken!!,
-            )
-            func()
-        } else response
+        try {
+            return func()
+        } catch (e: TumblrException) {
+            println(">> TumblrException <<")
+            println(">> ${e.status} <<")
+
+            if (e.status == 401) {
+                println(">> Refresh Token <<")
+                val refresh = tumblr().auth().oAuth2TokenRefresh(
+                    AuthOAuth2TokenRefreshRequest().also {
+                        it.clientId = CLIENT_ID
+                        it.clientSecret = CLIENT_SECRET
+                        it.refreshToken = REFRESH_TOKEN
+                    }
+                )
+                saveTokens(
+                    refresh.data.accessToken!!,
+                    refresh.data.refreshToken!!,
+                )
+                return func()
+            }
+            throw e
+        }
     }
 
     private fun readFile(file: String): String {

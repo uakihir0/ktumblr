@@ -94,7 +94,8 @@ open class AbstractResourceImpl(
                 response.stringBody
             )
         } catch (e: Exception) {
-            throw TumblrException(e)
+            throw e as? TumblrException
+                ?: TumblrException(e)
         }
     }
 
@@ -113,7 +114,8 @@ open class AbstractResourceImpl(
                 response.stringBody
             )
         } catch (e: Exception) {
-            throw TumblrException(e)
+            throw e as? TumblrException
+                ?: TumblrException(e)
         }
     }
 

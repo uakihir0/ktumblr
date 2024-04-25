@@ -6,6 +6,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import work.socialhub.kmpcommon.AnySerializer
 import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
 import work.socialhub.ktumblr.util.json.PostSerializer
 
 object Json {
@@ -28,4 +30,5 @@ object Json {
     inline fun <reified T> fromJson(obj: String): T {
         return json.decodeFromString(obj)
     }
+
 }
