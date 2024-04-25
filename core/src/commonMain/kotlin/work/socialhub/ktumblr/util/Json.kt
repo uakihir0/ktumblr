@@ -5,6 +5,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import work.socialhub.kmpcommon.AnySerializer
+import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.util.json.PostSerializer
 
 object Json {
 
@@ -15,6 +17,7 @@ object Json {
         ignoreUnknownKeys = true
         serializersModule = SerializersModule {
             contextual(Any::class, AnySerializer)
+            contextual(Post::class, PostSerializer)
         }
     }
 

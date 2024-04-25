@@ -2,6 +2,7 @@ package work.socialhub.ktumblr.apis
 
 import work.socialhub.ktumblr.AbstractTest
 import work.socialhub.ktumblr.api.request.auth.AuthAuthorizeUrlRequest
+import work.socialhub.ktumblr.api.request.auth.AuthOAuth2TokenRefreshRequest
 import work.socialhub.ktumblr.api.request.auth.AuthOAuth2TokenRequest
 import kotlin.test.Test
 
@@ -24,6 +25,26 @@ class AuthTest : AbstractTest() {
                 it.clientId = CLIENT_ID
                 it.clientSecret = CLIENT_SECRET
                 it.code = "{{CODE}}"
+            }
+        )
+
+        println("AccessToken  > ${response.data.accessToken}")
+        println("RefreshToken > ${response.data.refreshToken}")
+        println("ExpiresIn    > ${response.data.expiresIn}")
+
+        saveTokens(
+            response.data.accessToken!!,
+            response.data.refreshToken!!,
+        )
+    }
+
+    @Test
+    fun testOAuth2TokenRefresh() {
+        val response = tumblr().auth().oAuth2TokenRefresh(
+            AuthOAuth2TokenRefreshRequest().also {
+                it.clientId = CLIENT_ID
+                it.clientSecret = CLIENT_SECRET
+                it.refreshToken = REFRESH_TOKEN
             }
         )
 

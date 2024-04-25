@@ -1,8 +1,15 @@
 package work.socialhub.ktumblr.entity.post
 
-import work.socialhub.ktumblr.entity.Resource
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import work.socialhub.ktumblr.entity.Resource
+import work.socialhub.ktumblr.entity.post.legacy.LegacyAnswerPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyLinkPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyQuotePost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyVideoPost
+import work.socialhub.ktumblr.util.json.PostSerializer
 import kotlin.js.JsExport
 
 /**
@@ -10,8 +17,15 @@ import kotlin.js.JsExport
  */
 
 @JsExport
-@Serializable
+@Serializable(with = PostSerializer::class)
 open class Post : Resource() {
+
+    val asLegacyTextPost get() = this as? LegacyTextPost
+    val asLegacyPhotoPost get() = this as? LegacyPhotoPost
+    val asLegacyQuotePost get() = this as? LegacyQuotePost
+    val asLegacyLinkPost get() = this as? LegacyLinkPost
+    val asLegacyVideoPost get() = this as? LegacyVideoPost
+    val asLegacyAnswerPost get() = this as? LegacyAnswerPost
 
     @SerialName("blog_name")
     var blogName: String? = null

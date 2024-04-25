@@ -21,6 +21,7 @@ class UserTest: AbstractTest() {
                 it.limit = 10
             }
         )
+        println(user.json)
         dumpPosts(user.data.response?.posts!!)
     }
 }

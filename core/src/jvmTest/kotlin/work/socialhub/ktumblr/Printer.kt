@@ -31,6 +31,7 @@ object Printer {
         sp: String = ""
     ) {
         println("${sp}=== Post ===")
+        println("${sp}Class > ${post::javaClass.get().toGenericString()}")
         println("${sp}Type  > ${post.type}")
         println("${sp}Title > ${post.title}")
         println("${sp}Body  > ${post.body}")
