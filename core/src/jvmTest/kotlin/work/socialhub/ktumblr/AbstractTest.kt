@@ -34,8 +34,8 @@ open class AbstractTest {
     }
 
     inline fun <T> checkToken(
-        func: () -> Response<T>
-    ): Response<T> {
+        func: () -> T
+    ): T {
         try {
             return func()
         } catch (e: TumblrException) {

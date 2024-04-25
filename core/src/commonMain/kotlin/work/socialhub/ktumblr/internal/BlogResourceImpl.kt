@@ -32,8 +32,6 @@ import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
 import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
 import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
-import work.socialhub.ktumblr.entity.blog.Blog
-import work.socialhub.ktumblr.entity.post.Post
 
 class BlogResourceImpl(
     auth: TumblrAuth
@@ -60,9 +58,9 @@ class BlogResourceImpl(
                 .get()
 
             println(r.stringBody)
-           r.headers.forEach {
+            r.headers.forEach {
                 println(it.key + " : " + it.value)
-           }
+            }
 
             val url = checkNotNull(r.headers["Location"])
             { "Location header is not found." }
@@ -109,7 +107,7 @@ class BlogResourceImpl(
 
     override fun blogQueuedPosts(
         request: BlogQueueRequest
-    ): Response<Body<BlogPostsResponse>>{
+    ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
             blogPath(request.blogName!!, "/posts/queue"),
             request.toMap()
@@ -149,6 +147,10 @@ class BlogResourceImpl(
                 is BlogAudioPostRequest -> request.toMap()
                 is BlogVideoPostRequest -> request.toMap()
                 else -> throw IllegalArgumentException("Unknown post type.")
+            },
+            when (request) {
+                is BlogPhotoPostRequest -> request.toFileMap()
+                else -> mapOf()
             }
         )
     }

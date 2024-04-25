@@ -65,6 +65,7 @@ open class AbstractResourceImpl(
     fun oauthPostUnit(
         path: String,
         params: Map<String, Any> = mapOf(),
+        files: Map<String, Pair<String, ByteArray>> = mapOf(),
     ): ResponseUnit {
         return runBlocking {
             proceedUnit {
@@ -73,6 +74,11 @@ open class AbstractResourceImpl(
                     .header("Authorization", auth.oAuthBearerToken())
                     .accept(MediaType.JSON)
                     .params(params)
+                    .also {
+                        files.forEach { (key, pair) ->
+                            it.file(key, pair.first, pair.second)
+                        }
+                    }
                     .post()
             }
         }
@@ -83,7 +89,7 @@ open class AbstractResourceImpl(
     ): Response<T> {
         try {
             val response = body()
-            if (response.status == 200) {
+            if (response.status in 200..299) {
                 return Response(
                     fromJson<T>(response.stringBody),
                     response.stringBody
@@ -104,7 +110,7 @@ open class AbstractResourceImpl(
     ): ResponseUnit {
         try {
             val response = body()
-            if (response.status == 200) {
+            if (response.status in 200..299) {
                 return ResponseUnit(
                     response.stringBody
                 )
