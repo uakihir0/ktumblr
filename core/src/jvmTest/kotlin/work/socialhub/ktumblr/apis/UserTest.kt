@@ -6,7 +6,7 @@ import work.socialhub.ktumblr.Printer.dumpPosts
 import work.socialhub.ktumblr.api.request.user.UserDashboardRequest
 import kotlin.test.Test
 
-class UserTest: AbstractTest() {
+class UserTest : AbstractTest() {
 
     @Test
     fun testUserMe() {
@@ -16,11 +16,13 @@ class UserTest: AbstractTest() {
 
     @Test
     fun testUserDashboard() {
-        val user = tumblr().user().userDashboard(
-            UserDashboardRequest().also {
-                it.limit = 10
-            }
-        )
+        val user = checkToken {
+            tumblr().user().userDashboard(
+                UserDashboardRequest().also {
+                    it.limit = 10
+                }
+            )
+        }
         println(user.json)
         dumpPosts(user.data.response?.posts!!)
     }

@@ -6,6 +6,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import work.socialhub.kmpcommon.AnySerializer
+import work.socialhub.ktumblr.api.request.auth.AuthOAuth2TokenRefreshRequest
+import work.socialhub.ktumblr.api.response.Response
 import java.io.FileReader
 import java.io.FileWriter
 import kotlin.test.BeforeTest
@@ -29,6 +31,26 @@ open class AbstractTest {
             ACCESS_TOKEN,
             REFRESH_TOKEN,
         )
+    }
+
+    inline fun <T> checkToken(
+        func: () -> Response<T>
+    ): Response<T> {
+        val response = func()
+        return if (response.status == 401) {
+            val refresh = tumblr().auth().oAuth2TokenRefresh(
+                AuthOAuth2TokenRefreshRequest().also {
+                    it.clientId = CLIENT_ID
+                    it.clientSecret = CLIENT_SECRET
+                    it.refreshToken = REFRESH_TOKEN
+                }
+            )
+            saveTokens(
+                refresh.data.accessToken!!,
+                refresh.data.refreshToken!!,
+            )
+            func()
+        } else response
     }
 
     private fun readFile(file: String): String {
