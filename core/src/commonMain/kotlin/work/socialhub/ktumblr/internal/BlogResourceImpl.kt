@@ -55,14 +55,10 @@ class BlogResourceImpl(
         return runBlocking {
             val r = HttpRequest()
                 .url("$API_URL$path")
+                .followRedirect(false)
                 .get()
 
-            println(r.stringBody)
-            r.headers.forEach {
-                println(it.key + " : " + it.value)
-            }
-
-            val url = checkNotNull(r.headers["Location"])
+            val url = checkNotNull(r.headers["location"])
             { "Location header is not found." }
             Response(url[0], url[0])
         }

@@ -14,6 +14,7 @@ class UserDashboardRequest : MapRequest {
     var notesInfo: Boolean? = null
     var npf: Boolean? = null
 
+    @JsExport.Ignore
     override fun toMap() =
         mutableMapOf<String, Any>().also {
             it.addParam("limit", limit)

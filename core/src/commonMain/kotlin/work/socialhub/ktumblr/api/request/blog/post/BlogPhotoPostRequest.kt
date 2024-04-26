@@ -1,5 +1,6 @@
 package work.socialhub.ktumblr.api.request.blog.post
 
+import work.socialhub.ktumblr.api.request.FileRequest
 import work.socialhub.ktumblr.api.request.MapRequest
 import kotlin.js.JsExport
 
@@ -11,7 +12,7 @@ class BlogPhotoPostRequest :
     var caption: String? = null
     var link: String? = null
     var source: String? = null
-    var data: Array<ByteArray>? = null
+    var data: Array<FileRequest>? = null
     var data64: String? = null
 
     @JsExport.Ignore
@@ -27,7 +28,7 @@ class BlogPhotoPostRequest :
     fun toFileMap() =
         mutableMapOf<String, Pair<String, ByteArray>>().also {
             data?.forEachIndexed { i, d ->
-                it["data[$i]"] = "data[$i]" to d
+                it["data[$i]"] = d.name to d.data
             }
         }
 }

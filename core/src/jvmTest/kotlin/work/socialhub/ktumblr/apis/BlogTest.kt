@@ -3,9 +3,11 @@ package work.socialhub.ktumblr.apis
 import work.socialhub.ktumblr.AbstractTest
 import work.socialhub.ktumblr.Printer.dump
 import work.socialhub.ktumblr.Printer.dumpPosts
+import work.socialhub.ktumblr.api.request.FileRequest
 import work.socialhub.ktumblr.api.request.blog.BlogAvatarRequest
 import work.socialhub.ktumblr.api.request.blog.BlogInfoRequest
 import work.socialhub.ktumblr.api.request.blog.BlogLikesRequest
+import work.socialhub.ktumblr.api.request.blog.BlogPostsRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogPhotoPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogTextPostRequest
 import work.socialhub.ktumblr.define.PostType
@@ -27,6 +29,20 @@ class BlogTest : AbstractTest() {
 
         println(blog.json)
         dump(blog.data.response?.blog!!)
+    }
+
+    @Test
+    fun testBlogPosts() {
+        val blog = checkToken {
+            tumblr().blog().blogPosts(
+                BlogPostsRequest().also {
+                    it.blogName = "uakihiro"
+                }
+            )
+        }
+
+        println(blog.json)
+        dumpPosts(blog.data.response?.posts!!)
     }
 
     @Test
@@ -103,7 +119,9 @@ class BlogTest : AbstractTest() {
                     it.state = "state"
                     it.type = PostType.PHOTO.value
                     it.caption = "ktumblr test"
-                    it.data = arrayOf(bytes, bytes)
+                    it.data = arrayOf(
+                        FileRequest("icon.png", bytes),
+                    )
                 }
             )
         }

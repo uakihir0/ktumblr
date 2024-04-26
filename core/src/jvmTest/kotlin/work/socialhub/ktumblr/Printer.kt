@@ -41,7 +41,6 @@ object Printer {
         println("${sp}Title > ${post.title}")
         println("${sp}Body  > ${post.body}")
         println("${sp}Url   > ${post.postUrl}")
-        println("")
 
         when (post) {
             is LegacyQuotePost -> {
@@ -69,6 +68,8 @@ object Printer {
                 }
             }
         }
+
+        println("")
     }
 
     fun AbstractTest.dumpBlogs(
