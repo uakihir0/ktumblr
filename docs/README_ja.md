@@ -1,4 +1,4 @@
-# kmastodon
+# ktumblr
 
 ![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.repsy.io%2Fmvn%2Fuakihir0%2Fpublic%2Fwork%2Fsocialhub%2Fkmastodon%2Fcore%2Fmaven-metadata.xml)
 
@@ -32,13 +32,7 @@ dependencies {
 
 ### 認証
 
-先にアプリケーションを作成して、アプリ情報をサーバーにリクエストします。
-
-```kotlin
-WIP
-```
-
-次に、以下のようにユーザーが認証するための URL をリクエストします。
+先にアプリケーションを作成して、ユーザーが認証するための URL をリクエストします。
 
 ```kotlin
 WIP

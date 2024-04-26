@@ -1,5 +1,8 @@
 package work.socialhub.ktumblr
 
+import kotlin.js.JsExport
+
+@JsExport
 object KtumblrFactory {
 
     /**
