@@ -13,6 +13,7 @@ class UserTest : AbstractTest() {
         val user = checkToken {
             tumblr().user().user()
         }
+        println(user.json)
         dump(user.data.response?.user!!)
     }
 

@@ -10,7 +10,7 @@ import kotlin.js.JsExport
  */
 @JsExport
 @Serializable
-class Blog : Resource() {
+class Blog: Resource() {
 
     @SerialName("title")
     var title: String? = null
@@ -42,12 +42,29 @@ class Blog : Resource() {
     @SerialName("is_blocked_from_primary")
     val isBlockedFromPrimary: Boolean? = null
 
-    @SerialName("avater")
-    val avatar: String? = null
+    @SerialName("avatar")
+    val avatar: Array<BlogAvatar>? = null
 
     @SerialName("url")
     val url: String? = null
 
     @SerialName("theme")
     val theme: BlogTheme? = null
+
+    /**
+     * Undocumented Fields
+     */
+    @SerialName("admin")
+    val isAdmin: Boolean? = null
+
+    @SerialName("ask_page_title")
+    val askPageTitle: String? = null
+
+    @SerialName("is_nsfw")
+    val isNSFW: Boolean? = null
+
+    @SerialName("primary")
+    val isPrimary: Boolean? = null
+
+
 }

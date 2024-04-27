@@ -24,9 +24,11 @@ object Printer {
         sp: String = ""
     ) {
         println("${sp}=== Blog ===")
-        println("${sp}Title > ${blog.title}")
-        println("${sp}Name  > ${blog.name}")
-        println("${sp}Url   > ${blog.url}")
+        println("${sp}Title   > ${blog.title}")
+        println("${sp}Name    > ${blog.name}")
+        println("${sp}Url     > ${blog.url}")
+        println("${sp}Avatar  > ${blog.avatar?.get(0)?.url}")
+        println("${sp}Primary > ${blog.isPrimary}")
         println("")
     }
 
