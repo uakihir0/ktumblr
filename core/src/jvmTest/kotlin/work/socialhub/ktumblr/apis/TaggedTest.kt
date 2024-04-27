@@ -14,6 +14,7 @@ class TaggedTest : AbstractTest() {
                 it.tag = "SocialHub"
             }
         )
+        println(response.json)
         dumpPosts(response.data.response!!)
     }
 }

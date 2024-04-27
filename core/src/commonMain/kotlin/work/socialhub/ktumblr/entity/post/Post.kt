@@ -2,12 +2,15 @@ package work.socialhub.ktumblr.entity.post
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import work.socialhub.ktumblr.entity.blog.Blog
+import work.socialhub.ktumblr.entity.blog.Reblog
 import work.socialhub.ktumblr.entity.post.legacy.LegacyAnswerPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyLinkPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyQuotePost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyVideoPost
+import work.socialhub.ktumblr.entity.trail.Trail
 import work.socialhub.ktumblr.util.json.PostSerializer
 import kotlin.js.JsExport
 
@@ -46,6 +49,14 @@ abstract class Post {
 
     abstract var title: String?
     abstract var body: String?
+
+
+    /**
+     * Undocumented
+     */
+    abstract var blog: Blog?
+    abstract var reblog: Reblog?
+    abstract var trail: Array<Trail>?
 
     /*
     @SerialName("author_id")
