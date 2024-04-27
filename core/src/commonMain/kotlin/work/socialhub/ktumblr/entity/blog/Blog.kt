@@ -37,7 +37,7 @@ class Blog: Resource() {
     var isFollowed: Boolean? = null
 
     @SerialName("likes")
-    val likes: Int? = null
+    val likeCount: Int? = null
 
     @SerialName("is_blocked_from_primary")
     val isBlockedFromPrimary: Boolean? = null
@@ -66,5 +66,6 @@ class Blog: Resource() {
     @SerialName("primary")
     val isPrimary: Boolean? = null
 
-
+    @SerialName("followers")
+    val followerCount: Int? = null
 }
