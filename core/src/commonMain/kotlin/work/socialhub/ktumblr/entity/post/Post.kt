@@ -1,6 +1,7 @@
 package work.socialhub.ktumblr.entity.post
 
 import kotlinx.serialization.Serializable
+import work.socialhub.ktumblr.entity.Note
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.blog.Reblog
 import work.socialhub.ktumblr.entity.post.legacy.LegacyAnswerPost
@@ -49,7 +50,6 @@ abstract class Post {
     abstract var title: String?
     abstract var body: String?
 
-
     /**
      * Undocumented
      */
@@ -57,6 +57,26 @@ abstract class Post {
     abstract var summary: String?
     abstract var slug: String?
 
+    /**
+     * ReblogInfo
+     */
+    abstract var rebloggedFromId: String?
+    abstract var rebloggedFromUrl: String?
+    abstract var rebloggedFromName: String?
+    abstract var rebloggedFromTitle: String?
+    abstract var rebloggedFromUuid: String?
+    abstract var rebloggedFromCanMessage: Boolean?
+    abstract var rebloggedFromFollowing: Boolean?
+    abstract var rebloggedRootId: String?
+    abstract var rebloggedRootUrl: String?
+    abstract var rebloggedRootName: String?
+    abstract var rebloggedRootTitle: String?
+    abstract var rebloggedRootUuid: String?
+    abstract var rebloggedRootCanMessage: Boolean?
+    abstract var rebloggedRootFollowing: Boolean?
+
+
+    abstract var notes: Array<Note>?
     abstract var blog: Blog?
     abstract var reblog: Reblog?
     abstract var trail: Array<Trail>?

@@ -22,6 +22,8 @@ class UserTest : AbstractTest() {
         val user = checkToken {
             tumblr().user().userDashboard(
                 UserDashboardRequest().also {
+                    it.reblogInfo = true
+                    it.notesInfo = true
                     it.limit = 10
                 }
             )
