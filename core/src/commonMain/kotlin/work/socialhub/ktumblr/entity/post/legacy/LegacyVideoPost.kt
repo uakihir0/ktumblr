@@ -4,8 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.blog.Reblog
-import work.socialhub.ktumblr.entity.post.options.Video
 import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.entity.post.options.Video
 import work.socialhub.ktumblr.entity.trail.Trail
 import kotlin.js.JsExport
 
@@ -58,7 +58,13 @@ class LegacyVideoPost(
     @SerialName("reblog")
     override var reblog: Reblog?,
     @SerialName("trail")
-    override var trail: Array<Trail>?
+    override var trail: Array<Trail>?,
+    @SerialName("note_count")
+    override var noteCount: Int?,
+    @SerialName("summary")
+    override var summary: String?,
+    @SerialName("slug")
+    override var slug: String?,
 ) : Post() {
 
     var caption: String? = null

@@ -1,6 +1,5 @@
 package work.socialhub.ktumblr.entity.post
 
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.blog.Reblog
@@ -54,6 +53,10 @@ abstract class Post {
     /**
      * Undocumented
      */
+    abstract var noteCount: Int?
+    abstract var summary: String?
+    abstract var slug: String?
+
     abstract var blog: Blog?
     abstract var reblog: Reblog?
     abstract var trail: Array<Trail>?
@@ -63,7 +66,5 @@ abstract class Post {
     var authorId: String? = null
     @SerialName("short_url")
     val shortUrl: String? = null
-    @SerialName("slug")
-    var slug: String? = null
     */
 }

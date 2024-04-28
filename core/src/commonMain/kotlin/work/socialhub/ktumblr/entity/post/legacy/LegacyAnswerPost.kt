@@ -57,7 +57,13 @@ class LegacyAnswerPost(
     @SerialName("reblog")
     override var reblog: Reblog?,
     @SerialName("trail")
-    override var trail: Array<Trail>?
+    override var trail: Array<Trail>?,
+    @SerialName("note_count")
+    override var noteCount: Int?,
+    @SerialName("summary")
+    override var summary: String?,
+    @SerialName("slug")
+    override var slug: String?,
 ) : Post() {
 
     @SerialName("asking_name")
@@ -71,6 +77,5 @@ class LegacyAnswerPost(
 
     @SerialName("answer")
     val answer: String? = null
-
 
 }
