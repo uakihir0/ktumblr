@@ -2,7 +2,10 @@ package work.socialhub.ktumblr.entity.post.legacy
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import work.socialhub.ktumblr.entity.blog.Blog
+import work.socialhub.ktumblr.entity.blog.Reblog
 import work.socialhub.ktumblr.entity.post.Post
+import work.socialhub.ktumblr.entity.trail.Trail
 import kotlin.js.JsExport
 
 /**
@@ -48,7 +51,13 @@ class LegacyAnswerPost(
     @SerialName("title")
     override var title: String?,
     @SerialName("body")
-    override var body: String?
+    override var body: String?,
+    @SerialName("blog")
+    override var blog: Blog?,
+    @SerialName("reblog")
+    override var reblog: Reblog?,
+    @SerialName("trail")
+    override var trail: Array<Trail>?
 ) : Post() {
 
     @SerialName("asking_name")
@@ -62,4 +71,6 @@ class LegacyAnswerPost(
 
     @SerialName("answer")
     val answer: String? = null
+
+
 }

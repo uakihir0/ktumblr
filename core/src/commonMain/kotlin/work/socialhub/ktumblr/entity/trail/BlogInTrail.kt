@@ -16,7 +16,7 @@ class BlogInTrail {
     val isActive: Boolean = false
 
     @SerialName("theme")
-    val theme: Array<BlogTheme>? = null
+    val theme: BlogTheme? = null
 
     @SerialName("share_likes")
     val isShareLikes: Boolean = false

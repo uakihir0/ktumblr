@@ -26,6 +26,7 @@ class UserTest : AbstractTest() {
                 }
             )
         }
+        println(user.json)
         dumpPosts(user.data.response?.posts!!)
     }
 }

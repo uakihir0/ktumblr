@@ -17,8 +17,9 @@ class BlogTheme {
     @SerialName("body_font")
     var bodyFont: String? = null
 
-    @SerialName("header_bounds")
-    var headerBounds: String? = null
+    // TODO: header_bounds
+    // @SerialName("header_bounds")
+    // var headerBounds: String? = null
 
     @SerialName("header_image")
     var headerImage: String? = null
