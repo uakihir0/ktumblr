@@ -2,14 +2,14 @@
 
 # ktumblr
 
-![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.repsy.io%2Fmvn%2Fuakihir0%2Fpublic%2Fwork%2Fsocialhub%2Fkmastodon%2Fcore%2Fmaven-metadata.xml)
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo.repsy.io%2Fmvn%2Fuakihir0%2Fpublic%2Fwork%2Fsocialhub%2Fktumblr%2Fcore%2Fmaven-metadata.xml)
 
 ![badge][badge-js]
 ![badge][badge-jvm]
 ![badge][badge-ios]
 ![badge][badge-mac]
 
-**This library is a Mastodon client library designed for [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html).**
+**This library is a Tumblr client library designed for [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html).**
 It depends on [khttpclient] and uses Ktor Client internally.
 Therefore, this library is available on platforms supported by Kotlin Multiplatform and Ktor Client.
 The behavior on each platform depends on [khttpclient].

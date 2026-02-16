@@ -2,15 +2,15 @@ build:
 	./gradlew \
 	core:clean \
 	core:assemble \
-	-x test --refresh-dependencies
+	-x check
 
 pods:
 	./gradlew \
 	all:assembleKtumblrXCFramework \
-  	all:podPublishXCFramework \
-	-x test --refresh-dependencies
+	all:podPublishXCFramework \
+	-x check
 
 version:
-	 ./gradlew version --no-daemon --console=plain -q
+	./gradlew version --no-daemon --console=plain -q
 
 .PHONY: build pods version
