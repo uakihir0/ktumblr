@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "ktumblr-js"
+        outputModuleName.set("ktumblr-js")
         nodejs()
         browser()
         binaries.library()

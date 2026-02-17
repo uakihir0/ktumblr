@@ -1,6 +1,7 @@
 package work.socialhub.ktumblr
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -16,8 +17,6 @@ import kotlin.test.BeforeTest
 open class AbstractTest {
 
     companion object {
-        const val TEST_ACCOUNT_INDEX = 0
-
         var CLIENT_ID: String? = null
         var CLIENT_SECRET: String? = null
         var ACCESS_TOKEN: String? = null
@@ -74,10 +73,9 @@ open class AbstractTest {
     @BeforeTest
     fun setupTest() {
         try {
-            // Get account handle and password.
             val json = readFile("../secrets.json")
             val props = fromJson<Secrets>(json)
-            val param = props.params[TEST_ACCOUNT_INDEX]
+            val param = props.tumblr
 
             CLIENT_ID = param.clientId
             CLIENT_SECRET = param.clientSecret
@@ -97,28 +95,32 @@ open class AbstractTest {
         REFRESH_TOKEN = refreshToken
 
         val param = Secrets().also { s ->
-            s.params = listOf(
-                SecretParams().also {
-                    it.clientId = CLIENT_ID
-                    it.clientSecret = CLIENT_SECRET
-                    it.accessToken = accessToken
-                    it.refreshToken = refreshToken
-                }
-            )
+            s.tumblr = TumblrSecrets().also {
+                it.clientId = CLIENT_ID
+                it.clientSecret = CLIENT_SECRET
+                it.accessToken = accessToken
+                it.refreshToken = refreshToken
+            }
         }
         writeFile("../secrets.json", toJson(param))
     }
 
     @Serializable
     class Secrets {
-        var params: List<SecretParams> = listOf()
+        var tumblr: TumblrSecrets = TumblrSecrets()
     }
 
     @Serializable
-    class SecretParams {
+    class TumblrSecrets {
+        @SerialName("TUMBLR_REDIRECT_URI")
+        var redirectUri: String? = null
+        @SerialName("TUMBLR_CLIENT_ID")
         var clientId: String? = null
+        @SerialName("TUMBLR_CLIENT_SECRET")
         var clientSecret: String? = null
+        @SerialName("TUMBLR_ACCESS_TOKEN")
         var accessToken: String? = null
+        @SerialName("TUMBLR_REFRESH_TOKEN")
         var refreshToken: String? = null
     }
 
