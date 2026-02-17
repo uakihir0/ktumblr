@@ -8,7 +8,7 @@ plugins {
 
 kotlin {
     js(IR) {
-        moduleName = "ktumblr-js"
+        outputModuleName.set("ktumblr-js")
         nodejs()
         browser()
         binaries.library()
@@ -67,6 +67,13 @@ tasks.getByName("jsBrowserDevelopmentLibraryDistribution") {
             executable = "sh"
             args = listOf("../tool/setup_js.sh")
         }
+    }
+}
+
+tasks.configureEach {
+    // Fix implicit dependency between XCFramework and FatFramework tasks
+    if (name.contains("assembleKtumblr") && name.contains("XCFramework")) {
+        mustRunAfter(tasks.matching { it.name.contains("FatFramework") })
     }
 }
 

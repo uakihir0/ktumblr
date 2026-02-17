@@ -79,7 +79,7 @@ class BlogTest : AbstractTest() {
             tumblr().blog().postCreate(
                 BlogTextPostRequest().also {
                     it.blogName = "uakihiro"
-                    it.state = "state"
+                    it.state = "draft"
                     it.type = PostType.TEXT.value
                     it.title = "test"
                     it.body = "test"
@@ -98,7 +98,7 @@ class BlogTest : AbstractTest() {
             tumblr().blog().postCreate(
                 BlogPhotoPostRequest().also {
                     it.blogName = "uakihiro"
-                    it.state = "state"
+                    it.state = "draft"
                     it.type = PostType.PHOTO.value
                     it.caption = "ktumblr test"
                     it.data64 = Base64.encode(bytes)
@@ -116,7 +116,7 @@ class BlogTest : AbstractTest() {
             tumblr().blog().postCreate(
                 BlogPhotoPostRequest().also {
                     it.blogName = "uakihiro"
-                    it.state = "state"
+                    it.state = "draft"
                     it.type = PostType.PHOTO.value
                     it.caption = "ktumblr test"
                     it.data = arrayOf(

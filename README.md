@@ -17,7 +17,7 @@ The behavior on each platform depends on [khttpclient].
 ## Usage
 
 Below is how to use it with Gradle in Kotlin on the respective platforms.
-**If you want to use it on Apple platforms, please refer to [ktumblr-cocoapods](https://github.com/uakihir0/ktumblr-cocoapods).**
+**If you want to use it on Apple platforms, please refer to [ktumblr-spm](https://github.com/uakihir0/ktumblr-spm) or [ktumblr-cocoapods](https://github.com/uakihir0/ktumblr-cocoapods).**
 **For usage in JavaScript, please refer to [ktumblr.js](https://github.com/uakihir0/ktumblr.js).**
 Refer to the test code for how to call each API.
 

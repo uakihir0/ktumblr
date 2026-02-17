@@ -47,6 +47,9 @@ kotlin {
 
 tasks.named<Test>("jvmTest") {
     useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
 }
 
 publishing {

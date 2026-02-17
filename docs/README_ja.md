@@ -15,7 +15,7 @@
 ## 使い方
 
 以下は対応するプラットフォームにおいて Gradle を用いて Kotlin で使用する際の使い方になります。
-**Apple プラットフォームで使用する場合は、 [ktumblr-cocoapods](https://github.com/uakihir0/ktumblr-cocoapods) を参照してください。**
+**Apple プラットフォームで使用する場合は、 [ktumblr-spm](https://github.com/uakihir0/ktumblr-spm) または [ktumblr-cocoapods](https://github.com/uakihir0/ktumblr-cocoapods) を参照してください。**
 **また、JavaScript で使用する場合は、[ktumblr.js](https://github.com/uakihir0/ktumblr.js) を参照してください。**
 各 API の叩き方については、テストコードを参照してください。
 
