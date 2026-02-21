@@ -1,4 +1,0 @@
-rootProject.name = 'ktumblr'
-
-include("core")
-include("all")
