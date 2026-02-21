@@ -2,13 +2,13 @@ build:
 	./gradlew \
 	core:clean \
 	core:assemble \
-	-x test --refresh-dependencies
+	-x check --refresh-dependencies
 
 pods:
 	./gradlew \
 	all:assembleKtumblrXCFramework \
   	all:podPublishXCFramework \
-	-x test --refresh-dependencies
+	-x check --refresh-dependencies
 
 version:
 	 ./gradlew version --no-daemon --console=plain -q
