@@ -54,19 +54,19 @@ kotlin {
 
 tasks.podPublishXCFramework {
     doLast {
-        exec {
+        providers.exec {
             executable = "sh"
             args = listOf("../tool/setup_pods.sh")
-        }
+        }.standardOutput.asText.get()
     }
 }
 
 tasks.getByName("jsBrowserDevelopmentLibraryDistribution") {
     doLast {
-        exec {
+        providers.exec {
             executable = "sh"
             args = listOf("../tool/setup_js.sh")
-        }
+        }.standardOutput.asText.get()
     }
 }
 
