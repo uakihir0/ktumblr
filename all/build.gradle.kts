@@ -56,7 +56,7 @@ tasks.podPublishXCFramework {
     doLast {
         providers.exec {
             executable = "sh"
-            args = listOf("../tool/setup_pods.sh")
+            args = listOf(project.projectDir.path + "/../tool/setup_pods.sh")
         }.standardOutput.asText.get()
     }
 }
@@ -65,7 +65,7 @@ tasks.getByName("jsBrowserDevelopmentLibraryDistribution") {
     doLast {
         providers.exec {
             executable = "sh"
-            args = listOf("../tool/setup_js.sh")
+            args = listOf(project.projectDir.path + "/../tool/setup_js.sh")
         }.standardOutput.asText.get()
     }
 }
