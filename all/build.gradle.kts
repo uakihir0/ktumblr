@@ -40,6 +40,10 @@ kotlin {
         framework { baseName = "ktumblr" }
     }
 
+    compilerOptions {
+        freeCompilerArgs.add("-XXLanguage:+JsAllowExportingSuspendFunctions")
+    }
+
     sourceSets {
         all {
             languageSettings.apply {
