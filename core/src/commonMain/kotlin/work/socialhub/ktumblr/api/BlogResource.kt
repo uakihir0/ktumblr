@@ -30,91 +30,156 @@ interface BlogResource {
     /**
      * Get the blog info for a given blog
      */
-    fun blogInfo(
+    suspend fun blogInfo(
+        request: BlogInfoRequest
+    ): Response<Body<BlogInfoResponse>>
+
+    @JsExport.Ignore
+    fun blogInfoBlocking(
         request: BlogInfoRequest
     ): Response<Body<BlogInfoResponse>>
 
     /**
      * Get a specific size avatar for a given blog
      */
-    fun blogAvatar(
+    suspend fun blogAvatar(
+        request: BlogAvatarRequest
+    ): Response<String>
+
+    @JsExport.Ignore
+    fun blogAvatarBlocking(
         request: BlogAvatarRequest
     ): Response<String>
 
     /**
      * Get the public likes for a given blog
      */
-    fun blogLikes(
+    suspend fun blogLikes(
+        request: BlogLikesRequest
+    ): Response<Body<BlogLikesResponse>>
+
+    @JsExport.Ignore
+    fun blogLikesBlocking(
         request: BlogLikesRequest
     ): Response<Body<BlogLikesResponse>>
 
     /**
      * Get the following for a given blog
      */
-    fun blogFollowing(
+    suspend fun blogFollowing(
+        request: BlogFollowingRequest
+    ): Response<Body<BlogFollowingResponse>>
+
+    @JsExport.Ignore
+    fun blogFollowingBlocking(
         request: BlogFollowingRequest
     ): Response<Body<BlogFollowingResponse>>
 
     /**
      * Get the followers for a given blog
      */
-    fun blogFollowers(
+    suspend fun blogFollowers(
+        request: BlogFollowersRequest
+    ): Response<Body<BlogFollowersResponse>>
+
+    @JsExport.Ignore
+    fun blogFollowersBlocking(
         request: BlogFollowersRequest
     ): Response<Body<BlogFollowersResponse>>
 
     /**
      * Get the posts for a given blog
      */
-    fun blogPosts(
+    suspend fun blogPosts(
+        request: BlogPostsRequest
+    ): Response<Body<BlogPostsResponse>>
+
+    @JsExport.Ignore
+    fun blogPostsBlocking(
         request: BlogPostsRequest
     ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the queued posts for a given blog
      */
-    fun blogQueuedPosts(
+    suspend fun blogQueuedPosts(
+        request: BlogQueueRequest
+    ): Response<Body<BlogPostsResponse>>
+
+    @JsExport.Ignore
+    fun blogQueuedPostsBlocking(
         request: BlogQueueRequest
     ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the draft posts for a given blog
      */
-    fun blogDraftPosts(
+    suspend fun blogDraftPosts(
+        request: BlogDraftsRequest
+    ): Response<Body<BlogPostsResponse>>
+
+    @JsExport.Ignore
+    fun blogDraftPostsBlocking(
         request: BlogDraftsRequest
     ): Response<Body<BlogPostsResponse>>
 
     /**
      * Get the submissions for a given blog
      */
-    fun blogSubmissions(
+    suspend fun blogSubmissions(
+        request: BlogSubmissionsRequest
+    ): Response<Body<BlogPostsResponse>>
+
+    @JsExport.Ignore
+    fun blogSubmissionsBlocking(
         request: BlogSubmissionsRequest
     ): Response<Body<BlogPostsResponse>>
 
     /**
      * Create a post
      */
-    fun postCreate(
+    suspend fun postCreate(
+        request: BlogPostRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postCreateBlocking(
         request: BlogPostRequest
     ): ResponseUnit
 
     /**
      * Save edits for a given post
      */
-    fun postEdit(
+    suspend fun postEdit(
+        request: BlogPostRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postEditBlocking(
         request: BlogPostRequest
     ): ResponseUnit
 
     /**
      * Reblog a given post
      */
-    fun postReblog(
+    suspend fun postReblog(
+        request: BlogReblogRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postReblogBlocking(
         request: BlogReblogRequest
     ): ResponseUnit
 
     /**
      * Delete a given post
      */
-    fun postDelete(
+    suspend fun postDelete(
+        request: BlogDeleteRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postDeleteBlocking(
         request: BlogDeleteRequest
     ): ResponseUnit
 }
