@@ -12,7 +12,12 @@ interface TaggedResource {
     /**
      * Tagged posts
      */
-    fun tagged(
+    suspend fun tagged(
+        request: TaggedRequest
+    ): Response<Body<Array<Post>>>
+
+    @JsExport.Ignore
+    fun taggedBlocking(
         request: TaggedRequest
     ): Response<Body<Array<Post>>>
 }
