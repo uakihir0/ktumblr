@@ -63,7 +63,7 @@ class BlogResourceImpl(
 
         val url = checkNotNull(r.headers["location"])
         { "Location header is not found." }
-        Response(url[0], url[0])
+        return Response(url[0], url[0])
     }
 
     override fun blogAvatarBlocking(

@@ -97,7 +97,7 @@ open class AbstractResourceImpl(
     }
 
     private suspend fun proceedUnit(
-        body: () -> HttpResponse
+        body: suspend () -> HttpResponse
     ): ResponseUnit {
         try {
             val response = body()
