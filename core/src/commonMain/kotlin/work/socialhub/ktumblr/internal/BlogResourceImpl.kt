@@ -1,7 +1,6 @@
 package work.socialhub.ktumblr.internal
 
 import work.socialhub.khttpclient.HttpRequest
-import work.socialhub.kmpcommon.runBlocking
 import work.socialhub.ktumblr.TumblrAuth
 import work.socialhub.ktumblr.TumblrEndpoint.API_URL
 import work.socialhub.ktumblr.api.BlogResource
@@ -32,13 +31,14 @@ import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
 import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
 import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
+import work.socialhub.ktumblr.util.toBlocking
 
 class BlogResourceImpl(
     auth: TumblrAuth
 ) : BlogResource,
     AbstractResourceImpl(auth) {
 
-    override fun blogInfo(
+    override suspend fun blogInfo(
         request: BlogInfoRequest
     ): Response<Body<BlogInfoResponse>> {
         return apiKeyGet(
@@ -46,25 +46,31 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogAvatar(
+    override fun blogInfoBlocking(
+        request: BlogInfoRequest
+    ): Response<Body<BlogInfoResponse>> = toBlocking { blogInfo(request) }
+
+    override suspend fun blogAvatar(
         request: BlogAvatarRequest
     ): Response<String> {
         val ext = if (request.size == null) "" else "/${request.size!!}"
         val path = blogPath(request.blogName!!, "/avatar$ext")
 
-        return runBlocking {
-            val r = HttpRequest()
-                .url("$API_URL$path")
-                .followRedirect(false)
-                .get()
+        val r = HttpRequest()
+            .url("$API_URL$path")
+            .followRedirect(false)
+            .get()
 
-            val url = checkNotNull(r.headers["location"])
-            { "Location header is not found." }
-            Response(url[0], url[0])
-        }
+        val url = checkNotNull(r.headers["location"])
+        { "Location header is not found." }
+        return Response(url[0], url[0])
     }
 
-    override fun blogLikes(
+    override fun blogAvatarBlocking(
+        request: BlogAvatarRequest
+    ): Response<String> = toBlocking { blogAvatar(request) }
+
+    override suspend fun blogLikes(
         request: BlogLikesRequest
     ): Response<Body<BlogLikesResponse>> {
         return apiKeyGet(
@@ -73,7 +79,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogFollowing(
+    override fun blogLikesBlocking(
+        request: BlogLikesRequest
+    ): Response<Body<BlogLikesResponse>> = toBlocking { blogLikes(request) }
+
+    override suspend fun blogFollowing(
         request: BlogFollowingRequest
     ): Response<Body<BlogFollowingResponse>> {
         return oauthGet(
@@ -82,7 +92,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogFollowers(
+    override fun blogFollowingBlocking(
+        request: BlogFollowingRequest
+    ): Response<Body<BlogFollowingResponse>> = toBlocking { blogFollowing(request) }
+
+    override suspend fun blogFollowers(
         request: BlogFollowersRequest
     ): Response<Body<BlogFollowersResponse>> {
         return oauthGet(
@@ -91,7 +105,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogPosts(
+    override fun blogFollowersBlocking(
+        request: BlogFollowersRequest
+    ): Response<Body<BlogFollowersResponse>> = toBlocking { blogFollowers(request) }
+
+    override suspend fun blogPosts(
         request: BlogPostsRequest
     ): Response<Body<BlogPostsResponse>> {
         val ext = if (request.type == null) "" else "/${request.type!!}"
@@ -101,7 +119,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogQueuedPosts(
+    override fun blogPostsBlocking(
+        request: BlogPostsRequest
+    ): Response<Body<BlogPostsResponse>> = toBlocking { blogPosts(request) }
+
+    override suspend fun blogQueuedPosts(
         request: BlogQueueRequest
     ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
@@ -110,7 +132,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogDraftPosts(
+    override fun blogQueuedPostsBlocking(
+        request: BlogQueueRequest
+    ): Response<Body<BlogPostsResponse>> = toBlocking { blogQueuedPosts(request) }
+
+    override suspend fun blogDraftPosts(
         request: BlogDraftsRequest
     ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
@@ -119,7 +145,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun blogSubmissions(
+    override fun blogDraftPostsBlocking(
+        request: BlogDraftsRequest
+    ): Response<Body<BlogPostsResponse>> = toBlocking { blogDraftPosts(request) }
+
+    override suspend fun blogSubmissions(
         request: BlogSubmissionsRequest
     ): Response<Body<BlogPostsResponse>> {
         return oauthGet(
@@ -128,13 +158,16 @@ class BlogResourceImpl(
         )
     }
 
-    override fun postCreate(
+    override fun blogSubmissionsBlocking(
+        request: BlogSubmissionsRequest
+    ): Response<Body<BlogPostsResponse>> = toBlocking { blogSubmissions(request) }
+
+    override suspend fun postCreate(
         request: BlogPostRequest
     ): ResponseUnit {
         return oauthPostUnit(
             blogPath(request.blogName!!, "/post"),
             when (request) {
-                // 型チェックとインポートを明示的にする役割
                 is BlogTextPostRequest -> request.toMap()
                 is BlogPhotoPostRequest -> request.toMap()
                 is BlogQuotePostRequest -> request.toMap()
@@ -151,13 +184,16 @@ class BlogResourceImpl(
         )
     }
 
-    override fun postEdit(
+    override fun postCreateBlocking(
+        request: BlogPostRequest
+    ): ResponseUnit = toBlocking { postCreate(request) }
+
+    override suspend fun postEdit(
         request: BlogPostRequest
     ): ResponseUnit {
         return oauthPostUnit(
             blogPath(request.blogName!!, "/post/edit"),
             when (request) {
-                // 型チェックとインポートを明示的にする役割
                 is BlogTextPostRequest -> request.toMap()
                 is BlogPhotoPostRequest -> request.toMap()
                 is BlogQuotePostRequest -> request.toMap()
@@ -170,7 +206,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun postReblog(
+    override fun postEditBlocking(
+        request: BlogPostRequest
+    ): ResponseUnit = toBlocking { postEdit(request) }
+
+    override suspend fun postReblog(
         request: BlogReblogRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -179,7 +219,11 @@ class BlogResourceImpl(
         )
     }
 
-    override fun postDelete(
+    override fun postReblogBlocking(
+        request: BlogReblogRequest
+    ): ResponseUnit = toBlocking { postReblog(request) }
+
+    override suspend fun postDelete(
         request: BlogDeleteRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -187,4 +231,8 @@ class BlogResourceImpl(
             request.toMap()
         )
     }
+
+    override fun postDeleteBlocking(
+        request: BlogDeleteRequest
+    ): ResponseUnit = toBlocking { postDelete(request) }
 }

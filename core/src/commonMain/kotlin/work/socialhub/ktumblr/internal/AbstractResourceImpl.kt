@@ -2,7 +2,6 @@ package work.socialhub.ktumblr.internal
 
 import work.socialhub.khttpclient.HttpRequest
 import work.socialhub.khttpclient.HttpResponse
-import work.socialhub.kmpcommon.runBlocking
 import work.socialhub.ktumblr.TumblrAuth
 import work.socialhub.ktumblr.TumblrEndpoint.API_URL
 import work.socialhub.ktumblr.TumblrException
@@ -15,76 +14,68 @@ open class AbstractResourceImpl(
     val auth: TumblrAuth
 ) {
 
-    inline fun <reified T> get(
+    suspend inline fun <reified T> get(
         path: String,
         params: Map<String, Any> = mapOf(),
     ): Response<T> {
-        return runBlocking {
-            proceed<T> {
-                HttpRequest()
-                    .url("$API_URL$path")
-                    .accept(MediaType.JSON)
-                    .queries(params)
-                    .get()
-            }
+        return proceed<T> {
+            HttpRequest()
+                .url("$API_URL$path")
+                .accept(MediaType.JSON)
+                .queries(params)
+                .get()
         }
     }
 
-    inline fun <reified T> apiKeyGet(
+    suspend inline fun <reified T> apiKeyGet(
         path: String,
         params: Map<String, Any> = mapOf(),
     ): Response<T> {
-        return runBlocking {
-            proceed<T> {
-                HttpRequest()
-                    .url("$API_URL$path")
-                    .accept(MediaType.JSON)
-                    .queries(params)
-                    .query("api_key", auth.clientId)
-                    .get()
-            }
+        return proceed<T> {
+            HttpRequest()
+                .url("$API_URL$path")
+                .accept(MediaType.JSON)
+                .queries(params)
+                .query("api_key", auth.clientId)
+                .get()
         }
     }
 
-    inline fun <reified T> oauthGet(
+    suspend inline fun <reified T> oauthGet(
         path: String,
         params: Map<String, Any> = mapOf(),
     ): Response<T> {
-        return runBlocking {
-            proceed<T> {
-                HttpRequest()
-                    .url("$API_URL$path")
-                    .header("Authorization", auth.oAuthBearerToken())
-                    .accept(MediaType.JSON)
-                    .queries(params)
-                    .get()
-            }
+        return proceed<T> {
+            HttpRequest()
+                .url("$API_URL$path")
+                .header("Authorization", auth.oAuthBearerToken())
+                .accept(MediaType.JSON)
+                .queries(params)
+                .get()
         }
     }
 
-    fun oauthPostUnit(
+    suspend fun oauthPostUnit(
         path: String,
         params: Map<String, Any> = mapOf(),
         files: Map<String, Pair<String, ByteArray>> = mapOf(),
     ): ResponseUnit {
-        return runBlocking {
-            proceedUnit {
-                HttpRequest()
-                    .url("$API_URL$path")
-                    .header("Authorization", auth.oAuthBearerToken())
-                    .accept(MediaType.JSON)
-                    .params(params)
-                    .also {
-                        files.forEach { (key, pair) ->
-                            it.file(key, pair.first, pair.second)
-                        }
+        return proceedUnit {
+            HttpRequest()
+                .url("$API_URL$path")
+                .header("Authorization", auth.oAuthBearerToken())
+                .accept(MediaType.JSON)
+                .params(params)
+                .also {
+                    files.forEach { (key, pair) ->
+                        it.file(key, pair.first, pair.second)
                     }
-                    .post()
-            }
+                }
+                .post()
         }
     }
 
-    inline fun <reified T> proceed(
+    suspend inline fun <reified T> proceed(
         body: () -> HttpResponse
     ): Response<T> {
         try {
@@ -105,8 +96,8 @@ open class AbstractResourceImpl(
         }
     }
 
-    private inline fun proceedUnit(
-        body: () -> HttpResponse
+    private suspend fun proceedUnit(
+        body: suspend () -> HttpResponse
     ): ResponseUnit {
         try {
             val response = body()

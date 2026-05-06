@@ -22,55 +22,94 @@ interface UserResource {
     /**
      * Get the user info for the authenticated User
      */
-    fun user(
+    suspend fun user(
+    ): Response<Body<UserResponse>>
+
+    @JsExport.Ignore
+    fun userBlocking(
     ): Response<Body<UserResponse>>
 
     /**
      * Get the user dashboard for the authenticated User
      */
-    fun userDashboard(
+    suspend fun userDashboard(
+        request: UserDashboardRequest
+    ): Response<Body<UserDashboardResponse>>
+
+    @JsExport.Ignore
+    fun userDashboardBlocking(
         request: UserDashboardRequest
     ): Response<Body<UserDashboardResponse>>
 
     /**
      * Get the blogs the given user is following
      */
-    fun userFollowing(
+    suspend fun userFollowing(
+        request: UserFollowingRequest
+    ): Response<Body<UserFollowingResponse>>
+
+    @JsExport.Ignore
+    fun userFollowingBlocking(
         request: UserFollowingRequest
     ): Response<Body<UserFollowingResponse>>
 
     /**
      * Get the likes for the authenticated user
      */
-    fun userLikes(
+    suspend fun userLikes(
+        request: UserLikesRequest
+    ): Response<Body<UserLikesResponse>>
+
+    @JsExport.Ignore
+    fun userLikesBlocking(
         request: UserLikesRequest
     ): Response<Body<UserLikesResponse>>
 
     /**
      * Like a given post
      */
-    fun like(
+    suspend fun like(
+        request: UserLikeRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun likeBlocking(
         request: UserLikeRequest
     ): ResponseUnit
 
     /**
      * Unlike a given post
      */
-    fun unlike(
+    suspend fun unlike(
+        request: UserUnlikeRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun unlikeBlocking(
         request: UserUnlikeRequest
     ): ResponseUnit
 
     /**
      * Follow a given blog
      */
-    fun follow(
+    suspend fun follow(
+        request: UserFollowRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun followBlocking(
         request: UserFollowRequest
     ): ResponseUnit
 
     /**
      * Unfollow a given blog
      */
-    fun unfollow(
+    suspend fun unfollow(
+        request: UserUnfollowRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun unfollowBlocking(
         request: UserUnfollowRequest
     ): ResponseUnit
 }

@@ -16,18 +16,22 @@ import work.socialhub.ktumblr.api.response.user.UserDashboardResponse
 import work.socialhub.ktumblr.api.response.user.UserFollowingResponse
 import work.socialhub.ktumblr.api.response.user.UserLikesResponse
 import work.socialhub.ktumblr.api.response.user.UserResponse
+import work.socialhub.ktumblr.util.toBlocking
 
 class UserResourceImpl(
     auth: TumblrAuth
 ) : UserResource,
     AbstractResourceImpl(auth) {
 
-    override fun user(
+    override suspend fun user(
     ): Response<Body<UserResponse>> {
         return oauthGet("/user/info")
     }
 
-    override fun userDashboard(
+    override fun userBlocking(
+    ): Response<Body<UserResponse>> = toBlocking { user() }
+
+    override suspend fun userDashboard(
         request: UserDashboardRequest
     ): Response<Body<UserDashboardResponse>> {
         return oauthGet(
@@ -36,7 +40,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun userFollowing(
+    override fun userDashboardBlocking(
+        request: UserDashboardRequest
+    ): Response<Body<UserDashboardResponse>> = toBlocking { userDashboard(request) }
+
+    override suspend fun userFollowing(
         request: UserFollowingRequest
     ): Response<Body<UserFollowingResponse>> {
         return oauthGet(
@@ -45,7 +53,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun userLikes(
+    override fun userFollowingBlocking(
+        request: UserFollowingRequest
+    ): Response<Body<UserFollowingResponse>> = toBlocking { userFollowing(request) }
+
+    override suspend fun userLikes(
         request: UserLikesRequest
     ): Response<Body<UserLikesResponse>> {
         return oauthGet(
@@ -54,7 +66,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun like(
+    override fun userLikesBlocking(
+        request: UserLikesRequest
+    ): Response<Body<UserLikesResponse>> = toBlocking { userLikes(request) }
+
+    override suspend fun like(
         request: UserLikeRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -63,7 +79,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun unlike(
+    override fun likeBlocking(
+        request: UserLikeRequest
+    ): ResponseUnit = toBlocking { like(request) }
+
+    override suspend fun unlike(
         request: UserUnlikeRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -72,7 +92,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun follow(
+    override fun unlikeBlocking(
+        request: UserUnlikeRequest
+    ): ResponseUnit = toBlocking { unlike(request) }
+
+    override suspend fun follow(
         request: UserFollowRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -81,7 +105,11 @@ class UserResourceImpl(
         )
     }
 
-    override fun unfollow(
+    override fun followBlocking(
+        request: UserFollowRequest
+    ): ResponseUnit = toBlocking { follow(request) }
+
+    override suspend fun unfollow(
         request: UserUnfollowRequest
     ): ResponseUnit {
         return oauthPostUnit(
@@ -89,4 +117,8 @@ class UserResourceImpl(
             request.toMap()
         )
     }
+
+    override fun unfollowBlocking(
+        request: UserUnfollowRequest
+    ): ResponseUnit = toBlocking { unfollow(request) }
 }

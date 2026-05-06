@@ -14,11 +14,21 @@ interface AuthResource {
         request: AuthAuthorizeUrlRequest
     ): String
 
-    fun oAuth2Token(
+    suspend fun oAuth2Token(
         request: AuthOAuth2TokenRequest
     ): Response<AuthOAuth2TokenResponse>
 
-    fun oAuth2TokenRefresh(
+    @JsExport.Ignore
+    fun oAuth2TokenBlocking(
+        request: AuthOAuth2TokenRequest
+    ): Response<AuthOAuth2TokenResponse>
+
+    suspend fun oAuth2TokenRefresh(
+        request: AuthOAuth2TokenRefreshRequest
+    ): Response<AuthOAuth2TokenResponse>
+
+    @JsExport.Ignore
+    fun oAuth2TokenRefreshBlocking(
         request: AuthOAuth2TokenRefreshRequest
     ): Response<AuthOAuth2TokenResponse>
 }
