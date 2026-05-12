@@ -5,6 +5,7 @@ import work.socialhub.ktumblr.TumblrAuth
 import work.socialhub.ktumblr.TumblrEndpoint.API_URL
 import work.socialhub.ktumblr.api.BlogResource
 import work.socialhub.ktumblr.api.request.blog.BlogAvatarRequest
+import work.socialhub.ktumblr.api.request.blog.BlogBannerRequest
 import work.socialhub.ktumblr.api.request.blog.BlogDraftsRequest
 import work.socialhub.ktumblr.api.request.blog.BlogFollowersRequest
 import work.socialhub.ktumblr.api.request.blog.BlogFollowingRequest
@@ -13,12 +14,15 @@ import work.socialhub.ktumblr.api.request.blog.BlogLikesRequest
 import work.socialhub.ktumblr.api.request.blog.BlogPostsRequest
 import work.socialhub.ktumblr.api.request.blog.BlogQueueRequest
 import work.socialhub.ktumblr.api.request.blog.BlogSubmissionsRequest
+import work.socialhub.ktumblr.api.request.blog.BlogUpdateInfoRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogAudioPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogChatPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogDeleteRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogLinkPostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogPhotoPostRequest
+import work.socialhub.ktumblr.api.request.blog.post.BlogPostEditTagsRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogPostRequest
+import work.socialhub.ktumblr.api.request.blog.post.BlogPostUpdateRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogQuotePostRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogReblogRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogTextPostRequest
@@ -235,4 +239,59 @@ class BlogResourceImpl(
     override fun postDeleteBlocking(
         request: BlogDeleteRequest
     ): ResponseUnit = toBlocking { postDelete(request) }
+
+    override suspend fun blogBanner(
+        request: BlogBannerRequest
+    ): Response<String?> {
+        val ext = if (request.size == null) "" else "/${request.size!!}"
+        val response = apiKeyGet<String>(
+            blogPath(request.blogName!!, "/banner$ext")
+        )
+        return Response(response.data, response.json)
+    }
+
+    override fun blogBannerBlocking(
+        request: BlogBannerRequest
+    ): Response<String?> = toBlocking { blogBanner(request) }
+
+    override suspend fun blogUpdateInfo(
+        request: BlogUpdateInfoRequest
+    ): ResponseUnit {
+        return oauthPutUnit(
+            blogPath(request.blogName!!, "/info"),
+            request.toMap()
+        )
+    }
+
+    override fun blogUpdateInfoBlocking(
+        request: BlogUpdateInfoRequest
+    ): ResponseUnit = toBlocking { blogUpdateInfo(request) }
+
+    override suspend fun postEditTags(
+        request: BlogPostEditTagsRequest
+    ): ResponseUnit {
+        return oauthPostUnit(
+            blogPath(request.blogName!!, "/post/edit/tags"),
+            request.toMap()
+        )
+    }
+
+    override fun postEditTagsBlocking(
+        request: BlogPostEditTagsRequest
+    ): ResponseUnit = toBlocking { postEditTags(request) }
+
+    override suspend fun postUpdate(
+        request: BlogPostUpdateRequest
+    ): ResponseUnit {
+        return oauthPostUnit(
+            blogPath(request.blogName!!, "/post"),
+            request.toMap(),
+            request.toFileMap()
+        )
+    }
+
+    override fun postUpdateBlocking(
+        request: BlogPostUpdateRequest
+    ): ResponseUnit = toBlocking { postUpdate(request) }
 }
+

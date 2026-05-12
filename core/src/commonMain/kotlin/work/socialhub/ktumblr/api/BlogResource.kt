@@ -1,6 +1,7 @@
 package work.socialhub.ktumblr.api
 
 import work.socialhub.ktumblr.api.request.blog.BlogAvatarRequest
+import work.socialhub.ktumblr.api.request.blog.BlogBannerRequest
 import work.socialhub.ktumblr.api.request.blog.BlogDraftsRequest
 import work.socialhub.ktumblr.api.request.blog.BlogFollowersRequest
 import work.socialhub.ktumblr.api.request.blog.BlogFollowingRequest
@@ -9,17 +10,22 @@ import work.socialhub.ktumblr.api.request.blog.BlogLikesRequest
 import work.socialhub.ktumblr.api.request.blog.BlogPostsRequest
 import work.socialhub.ktumblr.api.request.blog.BlogQueueRequest
 import work.socialhub.ktumblr.api.request.blog.BlogSubmissionsRequest
+import work.socialhub.ktumblr.api.request.blog.BlogUpdateInfoRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogDeleteRequest
+import work.socialhub.ktumblr.api.request.blog.post.BlogPostEditTagsRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogPostRequest
+import work.socialhub.ktumblr.api.request.blog.post.BlogPostUpdateRequest
 import work.socialhub.ktumblr.api.request.blog.post.BlogReblogRequest
 import work.socialhub.ktumblr.api.response.Body
 import work.socialhub.ktumblr.api.response.Response
 import work.socialhub.ktumblr.api.response.ResponseUnit
+import work.socialhub.ktumblr.api.response.blog.BlogBannerResponse
 import work.socialhub.ktumblr.api.response.blog.BlogFollowersResponse
 import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
 import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
 import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
+import work.socialhub.ktumblr.api.response.blog.BlogUpdatedInfoResponse
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.post.Post
 import kotlin.js.JsExport
@@ -181,5 +187,53 @@ interface BlogResource {
     @JsExport.Ignore
     fun postDeleteBlocking(
         request: BlogDeleteRequest
+    ): ResponseUnit
+
+    /**
+     * Get the banner for a given blog
+     */
+    suspend fun blogBanner(
+        request: BlogBannerRequest
+    ): Response<String?>
+
+    @JsExport.Ignore
+    fun blogBannerBlocking(
+        request: BlogBannerRequest
+    ): Response<String?>
+
+    /**
+     * Update the blog info
+     */
+    suspend fun blogUpdateInfo(
+        request: BlogUpdateInfoRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun blogUpdateInfoBlocking(
+        request: BlogUpdateInfoRequest
+    ): ResponseUnit
+
+    /**
+     * Edit tags for a given post
+     */
+    suspend fun postEditTags(
+        request: BlogPostEditTagsRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postEditTagsBlocking(
+        request: BlogPostEditTagsRequest
+    ): ResponseUnit
+
+    /**
+     * Update a post
+     */
+    suspend fun postUpdate(
+        request: BlogPostUpdateRequest
+    ): ResponseUnit
+
+    @JsExport.Ignore
+    fun postUpdateBlocking(
+        request: BlogPostUpdateRequest
     ): ResponseUnit
 }

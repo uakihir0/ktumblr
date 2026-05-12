@@ -75,6 +75,20 @@ open class AbstractResourceImpl(
         }
     }
 
+    suspend fun oauthPutUnit(
+        path: String,
+        params: Map<String, Any> = mapOf(),
+    ): ResponseUnit {
+        return proceedUnit {
+            HttpRequest()
+                .url("$API_URL$path")
+                .header("Authorization", auth.oAuthBearerToken())
+                .accept(MediaType.JSON)
+                .params(params)
+                .put()
+        }
+    }
+
     suspend inline fun <reified T> proceed(
         body: () -> HttpResponse
     ): Response<T> {
