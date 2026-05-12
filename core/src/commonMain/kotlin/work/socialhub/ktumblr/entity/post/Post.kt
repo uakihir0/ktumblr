@@ -5,8 +5,11 @@ import work.socialhub.ktumblr.entity.Note
 import work.socialhub.ktumblr.entity.blog.Blog
 import work.socialhub.ktumblr.entity.blog.Reblog
 import work.socialhub.ktumblr.entity.post.legacy.LegacyAnswerPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyAudioPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyChatPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyLinkPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyPostcardPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyQuotePost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyVideoPost
@@ -27,7 +30,10 @@ abstract class Post {
     val asLegacyQuotePost get() = this as? LegacyQuotePost
     val asLegacyLinkPost get() = this as? LegacyLinkPost
     val asLegacyVideoPost get() = this as? LegacyVideoPost
+    val asLegacyAudioPost get() = this as? LegacyAudioPost
+    val asLegacyChatPost get() = this as? LegacyChatPost
     val asLegacyAnswerPost get() = this as? LegacyAnswerPost
+    val asLegacyPostcardPost get() = this as? LegacyPostcardPost
 
     abstract var blogName: String?
     abstract var idString: String?
