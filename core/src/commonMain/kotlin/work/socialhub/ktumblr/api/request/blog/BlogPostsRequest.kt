@@ -17,6 +17,7 @@ class BlogPostsRequest: MapRequest {
     var filter: String? = null
     var before: Int? = null
     var npf: Boolean? = null
+    var types: Array<String>? = null
 
     @JsExport.Ignore
     override fun toMap() =
@@ -30,5 +31,6 @@ class BlogPostsRequest: MapRequest {
             it.addParam("filter", filter)
             it.addParam("before", before)
             it.addParam("npf", npf)
+            it.addParam("types", types)
         }
 }

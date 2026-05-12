@@ -7,8 +7,11 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonObject
 import work.socialhub.ktumblr.entity.post.Post
 import work.socialhub.ktumblr.entity.post.legacy.LegacyAnswerPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyAudioPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyChatPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyLinkPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
+import work.socialhub.ktumblr.entity.post.legacy.LegacyPostcardPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyQuotePost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyVideoPost
@@ -30,7 +33,10 @@ object PostSerializer :
                 "quote" -> LegacyQuotePost.serializer()
                 "link" -> LegacyLinkPost.serializer()
                 "video" -> LegacyVideoPost.serializer()
+                "audio" -> LegacyAudioPost.serializer()
+                "chat" -> LegacyChatPost.serializer()
                 "answer" -> LegacyAnswerPost.serializer()
+                "postcard" -> LegacyPostcardPost.serializer()
                 else -> Post.serializer()
             }
         } else Post.serializer()
