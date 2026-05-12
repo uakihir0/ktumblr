@@ -25,9 +25,6 @@ import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
 import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
 import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
-import work.socialhub.ktumblr.api.response.blog.BlogUpdatedInfoResponse
-import work.socialhub.ktumblr.entity.blog.Blog
-import work.socialhub.ktumblr.entity.post.Post
 import kotlin.js.JsExport
 
 @JsExport
@@ -194,12 +191,12 @@ interface BlogResource {
      */
     suspend fun blogBanner(
         request: BlogBannerRequest
-    ): Response<String?>
+    ): Response<Body<BlogBannerResponse>>
 
     @JsExport.Ignore
     fun blogBannerBlocking(
         request: BlogBannerRequest
-    ): Response<String?>
+    ): Response<Body<BlogBannerResponse>>
 
     /**
      * Update the blog info

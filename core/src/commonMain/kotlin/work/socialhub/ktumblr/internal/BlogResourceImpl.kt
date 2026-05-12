@@ -34,6 +34,7 @@ import work.socialhub.ktumblr.api.response.blog.BlogFollowersResponse
 import work.socialhub.ktumblr.api.response.blog.BlogFollowingResponse
 import work.socialhub.ktumblr.api.response.blog.BlogInfoResponse
 import work.socialhub.ktumblr.api.response.blog.BlogLikesResponse
+import work.socialhub.ktumblr.api.response.blog.BlogBannerResponse
 import work.socialhub.ktumblr.api.response.blog.BlogPostsResponse
 import work.socialhub.ktumblr.util.toBlocking
 
@@ -242,17 +243,16 @@ class BlogResourceImpl(
 
     override suspend fun blogBanner(
         request: BlogBannerRequest
-    ): Response<String?> {
+    ): Response<Body<BlogBannerResponse>> {
         val ext = if (request.size == null) "" else "/${request.size!!}"
-        val response = apiKeyGet<String>(
+        return apiKeyGet(
             blogPath(request.blogName!!, "/banner$ext")
         )
-        return Response(response.data, response.json)
     }
 
     override fun blogBannerBlocking(
         request: BlogBannerRequest
-    ): Response<String?> = toBlocking { blogBanner(request) }
+    ): Response<Body<BlogBannerResponse>> = toBlocking { blogBanner(request) }
 
     override suspend fun blogUpdateInfo(
         request: BlogUpdateInfoRequest
@@ -284,7 +284,7 @@ class BlogResourceImpl(
         request: BlogPostUpdateRequest
     ): ResponseUnit {
         return oauthPostUnit(
-            blogPath(request.blogName!!, "/post"),
+            blogPath(request.blogName!!, "/post/edit"),
             request.toMap(),
             request.toFileMap()
         )
@@ -294,4 +294,3 @@ class BlogResourceImpl(
         request: BlogPostUpdateRequest
     ): ResponseUnit = toBlocking { postUpdate(request) }
 }
-
