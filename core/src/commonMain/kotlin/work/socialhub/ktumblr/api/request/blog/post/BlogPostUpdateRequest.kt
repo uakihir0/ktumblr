@@ -1,9 +1,11 @@
 package work.socialhub.ktumblr.api.request.blog.post
 
+import work.socialhub.ktumblr.api.request.FileRequest
+import work.socialhub.ktumblr.api.request.MapRequest
 import kotlin.js.JsExport
 
 @JsExport
-class BlogPostUpdateRequest {
+class BlogPostUpdateRequest : MapRequest {
     var blogName: String? = null
     var id: String? = null
     var type: String? = null
@@ -15,35 +17,29 @@ class BlogPostUpdateRequest {
     var replyKey: String? = null
     var tags: Array<String>? = null
 
-    // Photo post fields
-    var data: Array<work.socialhub.ktumblr.api.request.FileRequest>? = null
+    var data: Array<FileRequest>? = null
     var caption: String? = null
     var link: String? = null
 
-    // Quote post fields
     var quoteText: String? = null
     var quoteSource: String? = null
 
-    // Link post fields
     var linkUrl: String? = null
     var linkTitle: String? = null
     var linkDescription: String? = null
 
-    // Chat post fields
     var chatTitle: String? = null
     var chatLabel: String? = null
     var chatDialogue: String? = null
 
-    // Audio post fields
     var externalUrl: String? = null
 
-    // Video post fields
     var embed: String? = null
 
-    // Answer post fields
     var answer: String? = null
 
-    fun toMap(): Map<String, Any> = mutableMapOf<String, Any>().also {
+    @JsExport.Ignore
+    override fun toMap(): Map<String, Any> = mutableMapOf<String, Any>().also {
         it.addParam("id", id)
         it.addParam("type", type)
         it.addParam("title", title)
@@ -52,7 +48,7 @@ class BlogPostUpdateRequest {
         it.addParam("start_date", startDate)
         it.addParam("tz_address", tzAddress)
         it.addParam("reply_key", replyKey)
-        it.addParam("tags", tags)
+        it.addParam("tags", tags?.joinToString(","))
         it.addParam("caption", caption)
         it.addParam("link", link)
         it.addParam("quote_text", quoteText)
@@ -73,12 +69,5 @@ class BlogPostUpdateRequest {
         return data!!.mapIndexed { index, file ->
             "data[$index]" to (file.name to file.data)
         }.toMap()
-    }
-
-    private fun MutableMap<String, Any>.addParam(
-        key: String, value: Any?
-    ) {
-        if (value == null) return
-        this[key] = value
     }
 }

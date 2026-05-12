@@ -31,6 +31,6 @@ class BlogPostsRequest: MapRequest {
             it.addParam("filter", filter)
             it.addParam("before", before)
             it.addParam("npf", npf)
-            it.addParam("types", types)
+            it.addParam("types", types?.joinToString(","))
         }
 }
