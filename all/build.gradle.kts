@@ -65,15 +65,6 @@ tasks.podPublishXCFramework {
     }
 }
 
-tasks.getByName("jsBrowserDevelopmentLibraryDistribution") {
-    doLast {
-        providers.exec {
-            executable = "sh"
-            args = listOf(project.projectDir.path + "/../tool/setup_js.sh")
-        }.standardOutput.asText.get()
-    }
-}
-
 tasks.configureEach {
     // Fix implicit dependency between XCFramework and FatFramework tasks
     if (name.contains("assembleKtumblr") && name.contains("XCFramework")) {
