@@ -65,7 +65,7 @@ tasks.podPublishXCFramework {
     }
 }
 
-tasks.getByName("jsBrowserDevelopmentLibraryDistribution") {
+tasks.getByName("jsBrowserProductionLibraryDistribution") {
     doLast {
         providers.exec {
             executable = "sh"
