@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import work.socialhub.kmpcommon.AnySerializer
+import work.socialhub.ktumblr.util.AnySerializer
 import work.socialhub.ktumblr.api.request.auth.AuthOAuth2TokenRefreshRequest
 import work.socialhub.ktumblr.api.response.Response
 import java.io.FileReader
