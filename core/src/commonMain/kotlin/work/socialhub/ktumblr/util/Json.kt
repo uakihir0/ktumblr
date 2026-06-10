@@ -4,7 +4,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
-import work.socialhub.kmpcommon.AnySerializer
 import work.socialhub.ktumblr.entity.post.Post
 import work.socialhub.ktumblr.entity.post.legacy.LegacyPhotoPost
 import work.socialhub.ktumblr.entity.post.legacy.LegacyTextPost
