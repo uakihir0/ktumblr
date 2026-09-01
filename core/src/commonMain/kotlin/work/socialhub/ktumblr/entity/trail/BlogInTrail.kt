@@ -13,6 +13,17 @@ class BlogInTrail {
     @SerialName("name")
     val name: String? = null
 
+    /**
+     * Unique identifier of the blog (for example `t:0aY0xL2Fi1OFJg4YxpmegQ`),
+     * usable in place of a blog name in any request.
+     *
+     * The specification says a trail blog carries "at least a `uuid` field", but
+     * the legacy trail sends only the name — so this is null on every trail item
+     * a default request returns.
+     */
+    @SerialName("uuid")
+    val uuid: String? = null
+
     @SerialName("active")
     val isActive: Boolean = false
 

@@ -173,4 +173,29 @@ class PostSerializerTest {
         assertTrue(trail[1].isCurrentItem)
         assertTrue(!trail[1].isRootItem)
     }
+
+    /**
+     * A trail item whose original post or blog is gone carries neither a blog
+     * object nor a post ID — only `broken_blog_name`. Without that field the
+     * blog behind such an entry was unidentifiable.
+     */
+    @Test
+    fun decodesBrokenTrailItem() {
+        val response = dashboard(
+            """
+            {"type":"text","id_string":"12","blog_name":"l","body":"<p>hi</p>","trail":[
+              {"broken_blog_name":"old-broken-blog","content_raw":"<p>root</p>","is_root_item":true},
+              {"blog":{"name":"l","uuid":"t:0aY0xL2Fi1OFJg4YxpmegQ"},"post":{"id":"12"},
+               "content_raw":"<p>hi</p>","is_current_item":true}]}
+            """.trimIndent()
+        )
+
+        val trail = assertNotNull(assertNotNull(response.posts)[0].trail)
+        assertEquals(2, trail.size)
+        assertEquals("old-broken-blog", trail[0].brokenBlogName)
+        assertEquals(null, trail[0].blog)
+        assertEquals(null, trail[0].post)
+        assertEquals("t:0aY0xL2Fi1OFJg4YxpmegQ", trail[1].blog?.uuid)
+        assertEquals(null, trail[1].brokenBlogName)
+    }
 }
