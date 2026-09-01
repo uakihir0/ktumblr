@@ -7,7 +7,9 @@ import kotlin.js.JsExport
 class BlogDraftsRequest : MapRequest {
     var blogName: String? = null
 
-    var beforeId: Int? = null
+    /** Post ID, as a string. See UserDashboardRequest.sinceId. */
+    var beforeId: String? = null
+
     var filter: String? = null
 
     @JsExport.Ignore
