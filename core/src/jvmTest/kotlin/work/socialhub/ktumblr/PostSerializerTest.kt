@@ -65,4 +65,62 @@ class PostSerializerTest {
         assertEquals(1, posts.size)
         assertEquals("4", posts[0].idString)
     }
+
+    /**
+     * The dashboard mixes blogs whose themes disagree on the type of
+     * `header_bounds` (int vs. string) and carries keys this library does not
+     * model — neither may break decoding.
+     */
+    @Test
+    fun decodesTrailThemesWithVaryingFieldTypes() {
+        val response = dashboard(
+            """
+            {"type":"text","id_string":"5","blog_name":"e","body":"<p>hi</p>","trail":[
+              {"blog":{"name":"e","active":true,"theme":{"header_bounds":0,"header_image":"https://x/a.jpg","header_stretch":true}},
+               "post":{"id":"5"},"content_raw":"<p>hi</p>","content":"<p>hi</p>","is_current_item":true,"is_root_item":true}]},
+            {"type":"text","id_string":"6","blog_name":"f","body":"<p>hi</p>","trail":[
+              {"blog":{"name":"f","active":true,"theme":{"header_bounds":"","header_full_width":1594,"header_image":"https://x/b.jpg","header_stretch":true}},
+               "post":{"id":"6"},"content_raw":"<p>hi</p>","content":"<p>hi</p>","is_current_item":true,"is_root_item":true}]}
+            """.trimIndent()
+        )
+
+        val posts = assertNotNull(response.posts)
+        assertEquals(2, posts.size)
+        assertEquals("https://x/a.jpg", posts[0].trail?.get(0)?.blog?.theme?.headerImage)
+        assertEquals("https://x/b.jpg", posts[1].trail?.get(0)?.blog?.theme?.headerImage)
+    }
+
+    /**
+     * A deactivated blog in a trail is served with `"theme": []` instead of an
+     * object. kotlinx.serialization rejects that outright, and since the page is
+     * decoded in one pass it took down every post in the response, not just the
+     * one carrying that trail entry — this is what blanked the dashboard.
+     *
+     * `[]` for an empty object is not documented in the v2 API reference; it is
+     * observed behaviour, so decoding stays lenient rather than strict.
+     */
+    @Test
+    fun decodesThemeSentAsEmptyArray() {
+        val response = dashboard(
+            """
+            {"type":"text","id_string":"8","blog_name":"h","body":"<p>hi</p>","trail":[
+              {"blog":{"name":"h","active":true,"theme":{"header_image":"https://x/a.jpg"}},
+               "post":{"id":"8"},"content_raw":"<p>hi</p>","is_root_item":true,"is_current_item":true}]},
+            {"type":"photo","id_string":"9","blog_name":"i","caption":"<p>hi</p>","trail":[
+              {"blog":{"name":"gone","active":false,"theme":[],"share_likes":false,
+                       "share_following":false,"can_be_followed":false},
+               "post":{"id":"9"},"content_raw":"<p>hi</p>","is_root_item":true}]}
+            """.trimIndent()
+        )
+
+        // The whole page still decodes ...
+        val posts = assertNotNull(response.posts)
+        assertEquals(2, posts.size)
+        assertEquals("https://x/a.jpg", posts[0].trail?.get(0)?.blog?.theme?.headerImage)
+
+        // ... and the themeless blog simply has no theme values.
+        val gone = assertNotNull(assertNotNull(posts[1].trail)[0].blog)
+        assertEquals("gone", gone.name)
+        assertEquals(null, gone.theme?.headerImage)
+    }
 }

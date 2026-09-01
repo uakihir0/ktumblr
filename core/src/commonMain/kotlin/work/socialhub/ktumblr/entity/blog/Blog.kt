@@ -3,6 +3,7 @@ package work.socialhub.ktumblr.entity.blog
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import work.socialhub.ktumblr.entity.Resource
+import work.socialhub.ktumblr.util.json.BlogThemeSerializer
 import kotlin.js.JsExport
 
 /**
@@ -48,7 +49,9 @@ class Blog: Resource() {
     @SerialName("url")
     val url: String? = null
 
+    // Deactivated blogs arrive with `"theme": []` — see BlogThemeSerializer.
     @SerialName("theme")
+    @Serializable(with = BlogThemeSerializer::class)
     val theme: BlogTheme? = null
 
     /**
