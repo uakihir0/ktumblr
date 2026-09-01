@@ -88,6 +88,31 @@ class PostSerializerTest {
         assertEquals(2, posts.size)
         assertEquals("https://x/a.jpg", posts[0].trail?.get(0)?.blog?.theme?.headerImage)
         assertEquals("https://x/b.jpg", posts[1].trail?.get(0)?.blog?.theme?.headerImage)
+
+        // `header_bounds` is documented as "Mixed": both of these are the
+        // "no crop" value, they just disagree on the JSON type.
+        assertEquals("0", posts[0].trail?.get(0)?.blog?.theme?.headerBounds)
+        assertEquals("", posts[1].trail?.get(0)?.blog?.theme?.headerBounds)
+    }
+
+    /**
+     * The documented shape of `header_bounds` — the crop coordinates — plus the
+     * array form, which normalises to the same comma-separated string.
+     */
+    @Test
+    fun decodesHeaderBoundsCropCoordinates() {
+        val response = dashboard(
+            """
+            {"type":"text","id_string":"10","blog_name":"j","body":"<p>hi</p>",
+             "blog":{"name":"j","url":"https://j.tumblr.com/","theme":{"header_bounds":"0,1280,320,0"}}},
+            {"type":"text","id_string":"11","blog_name":"k","body":"<p>hi</p>",
+             "blog":{"name":"k","url":"https://k.tumblr.com/","theme":{"header_bounds":[0,1280,320,0]}}}
+            """.trimIndent()
+        )
+
+        val posts = assertNotNull(response.posts)
+        assertEquals("0,1280,320,0", posts[0].blog?.theme?.headerBounds)
+        assertEquals("0,1280,320,0", posts[1].blog?.theme?.headerBounds)
     }
 
     /**
