@@ -123,4 +123,29 @@ class PostSerializerTest {
         assertEquals("gone", gone.name)
         assertEquals(null, gone.theme?.headerImage)
     }
+
+    /**
+     * The trail flags are sent as `is_current_item` / `is_root_item`; without that
+     * prefix they always decoded as false, so callers could not tell which entry
+     * the post itself contributed.
+     *
+     * Tumblr only emits them when true, so absence must keep meaning false.
+     */
+    @Test
+    fun decodesTrailItemFlags() {
+        val response = dashboard(
+            """
+            {"type":"text","id_string":"7","blog_name":"g","body":"<p>hi</p>","trail":[
+              {"blog":{"name":"root"},"post":{"id":"1"},"content_raw":"<p>root</p>","is_current_item":false,"is_root_item":true},
+              {"blog":{"name":"g"},"post":{"id":"7"},"content_raw":"<p>hi</p>","is_current_item":true,"is_root_item":false}]}
+            """.trimIndent()
+        )
+
+        val trail = assertNotNull(assertNotNull(response.posts)[0].trail)
+        assertEquals(2, trail.size)
+        assertTrue(trail[0].isRootItem)
+        assertTrue(!trail[0].isCurrentItem)
+        assertTrue(trail[1].isCurrentItem)
+        assertTrue(!trail[1].isRootItem)
+    }
 }
