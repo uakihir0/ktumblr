@@ -37,8 +37,27 @@ object PostSerializer :
                 "chat" -> LegacyChatPost.serializer()
                 "answer" -> LegacyAnswerPost.serializer()
                 "postcard" -> LegacyPostcardPost.serializer()
-                else -> Post.serializer()
+                else -> fallbackSerializer()
             }
-        } else Post.serializer()
+        } else fallbackSerializer()
+    }
+
+    /**
+     * Deserializer used when the post type is missing or not one of the legacy
+     * types above (Tumblr keeps introducing new NPF-only types).
+     *
+     * This must NOT be `Post.serializer()`: `Post` is annotated
+     * `@Serializable(with = PostSerializer::class)`, so `Post.serializer()`
+     * resolves back to this very serializer and the lookup recurses until the
+     * stack overflows — taking down the whole response, not just the one post.
+     *
+     * [LegacyTextPost] is the safe stand-in: every one of its properties is
+     * nullable, and `Json { explicitNulls = false }` treats missing nullable
+     * properties as null, so any post object decodes into it. Only the fields
+     * shared by all post types (id, blog, timestamp, trail, ...) are populated;
+     * the type-specific payload is dropped.
+     */
+    private fun fallbackSerializer(): DeserializationStrategy<Post> {
+        return LegacyTextPost.serializer()
     }
 }
