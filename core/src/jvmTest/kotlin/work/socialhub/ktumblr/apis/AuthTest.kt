@@ -20,7 +20,7 @@ class AuthTest : AbstractTest() {
 
     @Test
     fun testOAuth2Token() {
-        val response = tumblr().auth().oAuth2Token(
+        val response = tumblr().auth().oAuth2TokenBlocking(
             AuthOAuth2TokenRequest().also {
                 it.clientId = CLIENT_ID
                 it.clientSecret = CLIENT_SECRET
@@ -40,7 +40,7 @@ class AuthTest : AbstractTest() {
 
     @Test
     fun testOAuth2TokenRefresh() {
-        val response = tumblr().auth().oAuth2TokenRefresh(
+        val response = tumblr().auth().oAuth2TokenRefreshBlocking(
             AuthOAuth2TokenRefreshRequest().also {
                 it.clientId = CLIENT_ID
                 it.clientSecret = CLIENT_SECRET

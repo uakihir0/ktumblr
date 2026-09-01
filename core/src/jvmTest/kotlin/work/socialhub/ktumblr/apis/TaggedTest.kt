@@ -9,7 +9,7 @@ class TaggedTest : AbstractTest() {
 
     @Test
     fun test() {
-        val response = tumblr().tagged().tagged(
+        val response = tumblr().tagged().taggedBlocking(
             TaggedRequest().also {
                 it.tag = "SocialHub"
             }

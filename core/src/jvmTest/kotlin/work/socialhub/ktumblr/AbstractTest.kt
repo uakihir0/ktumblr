@@ -43,7 +43,7 @@ open class AbstractTest {
 
             if (e.status == 401) {
                 println(">> Refresh Token <<")
-                val refresh = tumblr().auth().oAuth2TokenRefresh(
+                val refresh = tumblr().auth().oAuth2TokenRefreshBlocking(
                     AuthOAuth2TokenRefreshRequest().also {
                         it.clientId = CLIENT_ID
                         it.clientSecret = CLIENT_SECRET
