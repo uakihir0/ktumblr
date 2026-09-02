@@ -11,7 +11,7 @@ class UserTest : AbstractTest() {
     @Test
     fun testUserMe() {
         val user = checkToken {
-            tumblr().user().user()
+            tumblr().user().userBlocking()
         }
         println(user.json)
         dump(user.data.response?.user!!)
@@ -20,7 +20,7 @@ class UserTest : AbstractTest() {
     @Test
     fun testUserDashboard() {
         val user = checkToken {
-            tumblr().user().userDashboard(
+            tumblr().user().userDashboardBlocking(
                 UserDashboardRequest().also {
                     it.reblogInfo = true
                     it.notesInfo = true

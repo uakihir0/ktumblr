@@ -20,7 +20,7 @@ class BlogTest : AbstractTest() {
     @Test
     fun testBlogInfo() {
         val blog = checkToken {
-            tumblr().blog().blogInfo(
+            tumblr().blog().blogInfoBlocking(
                 BlogInfoRequest().also {
                     it.blogName = "staff"
                 }
@@ -34,7 +34,7 @@ class BlogTest : AbstractTest() {
     @Test
     fun testBlogPosts() {
         val blog = checkToken {
-            tumblr().blog().blogPosts(
+            tumblr().blog().blogPostsBlocking(
                 BlogPostsRequest().also {
                     it.blogName = "uakihiro"
                 }
@@ -48,7 +48,7 @@ class BlogTest : AbstractTest() {
     @Test
     fun testBlogAvatar() {
         val avatar = checkToken {
-            tumblr().blog().blogAvatar(
+            tumblr().blog().blogAvatarBlocking(
                 BlogAvatarRequest().also {
                     it.blogName = "uakihiro"
                 }
@@ -62,7 +62,7 @@ class BlogTest : AbstractTest() {
     @Test
     fun testBlogLikes() {
         val likes = checkToken {
-            tumblr().blog().blogLikes(
+            tumblr().blog().blogLikesBlocking(
                 BlogLikesRequest().also {
                     it.blogName = "uakihiro"
                 }
@@ -76,7 +76,7 @@ class BlogTest : AbstractTest() {
     @Test
     fun testBlogPostCreate() {
         checkToken {
-            tumblr().blog().postCreate(
+            tumblr().blog().postCreateBlocking(
                 BlogTextPostRequest().also {
                     it.blogName = "uakihiro"
                     it.state = "draft"
@@ -95,7 +95,7 @@ class BlogTest : AbstractTest() {
         val bytes = stream.readAllBytes()
 
         checkToken {
-            tumblr().blog().postCreate(
+            tumblr().blog().postCreateBlocking(
                 BlogPhotoPostRequest().also {
                     it.blogName = "uakihiro"
                     it.state = "draft"
@@ -113,7 +113,7 @@ class BlogTest : AbstractTest() {
         val bytes = stream.readAllBytes()
 
         checkToken {
-            tumblr().blog().postCreate(
+            tumblr().blog().postCreateBlocking(
                 BlogPhotoPostRequest().also {
                     it.blogName = "uakihiro"
                     it.state = "draft"

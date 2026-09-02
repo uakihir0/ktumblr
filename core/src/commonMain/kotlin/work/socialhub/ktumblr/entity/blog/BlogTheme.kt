@@ -2,6 +2,7 @@ package work.socialhub.ktumblr.entity.blog
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import work.socialhub.ktumblr.util.json.HeaderBoundsSerializer
 import kotlin.js.JsExport
 
 @JsExport
@@ -17,9 +18,15 @@ class BlogTheme {
     @SerialName("body_font")
     var bodyFont: String? = null
 
-    // TODO: header_bounds
-    // @SerialName("header_bounds")
-    // var headerBounds: String? = null
+    /**
+     * Comma-separated top/right/bottom/left crop coordinates for the header.
+     *
+     * The reference types this as "Mixed" and blogs without a cropped header
+     * send `0` or `""`, so it is read through [HeaderBoundsSerializer].
+     */
+    @SerialName("header_bounds")
+    @Serializable(with = HeaderBoundsSerializer::class)
+    var headerBounds: String? = null
 
     @SerialName("header_image")
     var headerImage: String? = null

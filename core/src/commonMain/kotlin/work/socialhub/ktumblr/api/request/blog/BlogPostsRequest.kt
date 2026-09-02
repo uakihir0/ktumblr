@@ -8,7 +8,9 @@ class BlogPostsRequest: MapRequest {
     var blogName: String? = null
     var type: String? = null
 
-    var id: Int? = null
+    /** Post ID, as a string. See UserDashboardRequest.sinceId. */
+    var id: String? = null
+
     var tag: String? = null
     var limit: Int? = null
     var offset: Int? = null
